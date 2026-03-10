@@ -19,14 +19,14 @@ export const getProfile = asyncHandler(async (req, res) => {
 // --- Update Professional Info ---
 export const updateProfile = asyncHandler(async (req, res) => {
   const { qualification, experience, availability, bio, fullName, language, district, taluka } = req.body;
-  
+
   // Update agronomist profile
   const profile = await AgronomistProfile.findOneAndUpdate(
     { user: req.user.id },
     { qualification, experience, availability, bio },
     { new: true }
   ).populate('user');
-  
+
   // Update user details if provided
   if (fullName || language || district || taluka) {
     const updateData = {};
@@ -38,11 +38,11 @@ export const updateProfile = asyncHandler(async (req, res) => {
         taluka: taluka !== undefined ? taluka : profile.user.address?.taluka || '',
       };
     }
-    
+
     await User.findByIdAndUpdate(req.user.id, updateData);
     await profile.populate('user');
   }
-  
+
   res.json(profile);
 });
 
@@ -83,7 +83,8 @@ export const findLocalExperts = asyncHandler(async (req, res) => {
       return profile.user && agronomistDistrict && agronomistDistrict === farmerDistrict;
     })
     .map(profile => ({
-      id: profile._id,
+      id: profile.user?._id || profile.user, // Use User ID for identification
+      profileId: profile._id,
       fullName: profile.user.fullName,
       mobileNumber: profile.user.mobileNumber,
       district: profile.user.address?.district || '',

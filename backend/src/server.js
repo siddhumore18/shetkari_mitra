@@ -60,6 +60,11 @@ const startServer = async () => {
         console.log(`🚪 Socket ${socket.id} joined chat: ${chatId}`);
       });
 
+      socket.on('join_user', (userId) => {
+        socket.join(userId);
+        console.log(`👤 Socket ${socket.id} joined user room: ${userId}`);
+      });
+
       socket.on('send_message', async (data) => {
         const { chatId, senderId, text } = data;
         try {

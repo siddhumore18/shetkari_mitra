@@ -7,6 +7,6 @@ const router = express.Router();
 // Define the route: GET request to the root ('/') of this router
 // protect: Ensures a user must be logged in.
 // authorizeRoles('farmer'): Ensures only users with the 'farmer' role can access this.
-router.route('/').get(protect, authorizeRoles('farmer'), getWeatherForFarmer);
+router.route('/').get(protect, authorizeRoles('farmer', 'retailer'), getWeatherForFarmer);
 
 export default router;

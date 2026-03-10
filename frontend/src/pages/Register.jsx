@@ -393,6 +393,7 @@ const Register = () => {
                   onChange={handleChange}
                 >
                   <option value="farmer">{t('Farmer')}</option>
+                  <option value="retailer">{t('Retailer')}</option>
                   <option value="agronomist">{t('Agronomist')}</option>
                 </select>
               </div>

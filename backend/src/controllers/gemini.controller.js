@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { getCropDiseaseInfo, chatWithAI, getCropManagementInfo, getWeatherCropImpact, getMarketPrices, getSeedAndYieldAdvice } from "../services/gemini.service.js";
+import { searchMarketPrices } from "../services/market.service.js";
 import axios from "axios";
 import FormData from "form-data";
 import User from "../models/user.model.js";
@@ -155,7 +156,22 @@ export const marketPrices = asyncHandler(async (req, res) => {
     }
 
     const user = await User.findById(req.user._id).lean();
-    const data = await getMarketPrices(commodity, district, state, user?.groqApiKey);
+
+    // Ground AI with real database records if available
+    const realDataRes = await searchMarketPrices({
+        commodity,
+        state,
+        district,
+        limit: 15
+    });
+
+    const data = await getMarketPrices(
+        commodity,
+        district,
+        state,
+        user?.groqApiKey,
+        realDataRes.results || []
+    );
     res.json({ success: true, data });
 });
 

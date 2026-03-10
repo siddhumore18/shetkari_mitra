@@ -7,7 +7,7 @@ router.use(protect);
 
 // Farmer routes
 router.post('/', authorizeRoles('farmer'), addCrop);
-router.get('/', authorizeRoles('farmer'), getCrops);
+router.get('/', authorizeRoles('farmer', 'retailer'), getCrops);
 router.delete('/:id', authorizeRoles('farmer'), deleteCrop);
 
 // Agronomist route to view farmer crops

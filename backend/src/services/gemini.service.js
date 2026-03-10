@@ -1,8 +1,14 @@
 /**
- * AI service — uses Groq API (OpenAI-compatible).
- * GROK_API_KEY in .env must be your Groq API key (gsk_...).
+ * AI service — Groq API (primary) with automatic Google Gemini fallback.
+ * If Groq fails (rate limit, quota exhausted, or any error) the same
+ * prompt is retried transparently via Gemini — zero changes needed elsewhere.
+ *
+ * Required .env keys:
+ *   GROK_API_KEY   — Groq API key  (gsk_...)
+ *   GEMINI_API_KEY — Google AI Studio key
  */
 import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const LANGUAGE_NAMES = {
   en: "English",
@@ -11,30 +17,85 @@ const LANGUAGE_NAMES = {
   hinglish: "Hinglish (Hindi written in English script with a mix of English words)",
 };
 
-const createClient = (userApiKey = null) => {
+// ── Groq client (OpenAI-compatible) ─────────────────────────────────────────
+const createGroqClient = (userApiKey = null) => {
   const apiKey = userApiKey || process.env.GROK_API_KEY;
-  if (!apiKey) throw new Error("No Groq API key found. Please configure it in your profile.");
+  if (!apiKey) return null; // will fall through to Gemini
   return new OpenAI({ apiKey, baseURL: "https://api.groq.com/openai/v1" });
 };
 
-// Primary and fallback models — 70b for quality, 8b for when rate limits hit
+// Keep old name as alias so nothing else breaks
+const createClient = createGroqClient;
+
+// ── Gemini client ────────────────────────────────────────────────────────────
+const createGeminiClient = () => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return null;
+  return new GoogleGenerativeAI(apiKey);
+};
+
+/**
+ * Convert an OpenAI-style messages array to a Gemini-compatible call and
+ * return a response shaped like an OpenAI chat completion so the rest of
+ * the code can consume it unchanged.
+ */
+const callGemini = async (params) => {
+  const geminiClient = createGeminiClient();
+  if (!geminiClient) throw new Error("Gemini API key not configured.");
+
+  const model = geminiClient.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  // Merge system prompt + user messages into a single prompt string
+  const systemMsg = params.messages.find((m) => m.role === "system");
+  const userMsgs = params.messages.filter((m) => m.role !== "system");
+  const fullPrompt = [
+    systemMsg ? `${systemMsg.content}\n\n` : "",
+    ...userMsgs.map((m) => m.content),
+  ].join("");
+
+  const result = await model.generateContent(fullPrompt);
+  const text = result.response.text();
+
+  // Shape the response to match OpenAI format
+  return { choices: [{ message: { content: text } }] };
+};
+
+// Primary Groq models — 70b for quality, 8b when 70b rate-limits
 const PRIMARY_MODEL = "llama-3.3-70b-versatile";
 const FALLBACK_MODEL = "llama-3.1-8b-instant";
 
 /**
- * Calls the Groq API with PRIMARY_MODEL; if a 429 rate-limit is returned
- * it automatically retries with FALLBACK_MODEL without failing the request.
+ * Calls Groq (PRIMARY → FALLBACK_MODEL on 429).
+ * If Groq itself is unavailable / quota exceeded entirely, retries via Gemini.
  */
 const callWithFallback = async (client, params) => {
-  try {
-    return await client.chat.completions.create({ ...params, model: PRIMARY_MODEL });
-  } catch (err) {
-    const status = err?.status || err?.response?.status;
-    if (status === 429) {
-      console.warn(`[Groq] Rate limit hit on ${PRIMARY_MODEL}, falling back to ${FALLBACK_MODEL}`);
-      return client.chat.completions.create({ ...params, model: FALLBACK_MODEL });
+  // ── Try Groq ────────────────────────────────────────────────────────────
+  if (client) {
+    try {
+      return await client.chat.completions.create({ ...params, model: PRIMARY_MODEL });
+    } catch (groqErr) {
+      const status = groqErr?.status || groqErr?.response?.status;
+      if (status === 429) {
+        try {
+          console.warn(`[Groq] Rate limit on ${PRIMARY_MODEL}, trying ${FALLBACK_MODEL}`);
+          return await client.chat.completions.create({ ...params, model: FALLBACK_MODEL });
+        } catch (fallbackErr) {
+          console.warn(`[Groq] ${FALLBACK_MODEL} also rate-limited. Switching to Gemini...`);
+        }
+      } else {
+        console.warn(`[Groq] Error (${status || groqErr.message}). Switching to Gemini...`);
+      }
     }
-    throw err;
+  } else {
+    console.warn("[Groq] No API key configured. Using Gemini.");
+  }
+
+  // ── Fallback: Gemini ─────────────────────────────────────────────────────
+  try {
+    console.log("[AI] Using Gemini fallback.");
+    return await callGemini(params);
+  } catch (geminiErr) {
+    throw new Error(`Both Groq and Gemini failed. Last error: ${geminiErr.message}`);
   }
 };
 
@@ -521,16 +582,26 @@ CRITICAL: Use only ASCII digits (0-9) inside the JSON. Never use Devanagari (१
  * @param {string} state       - User's state
  * @returns {object}           - { localMarkets, majorMarkets, priceHistory, summary }
  */
-export const getMarketPrices = async (commodity, district = "Nashik", state = "Maharashtra", userApiKey = null) => {
+export const getMarketPrices = async (commodity, district = "Nashik", state = "Maharashtra", userApiKey = null, realMarketData = []) => {
   const client = createClient(userApiKey);
   const today = new Date();
   const todayStr = today.toISOString().slice(0, 10);
+
+  // GROUNDING: Convert real database records into a concise text summary for the AI
+  const recordsSummary = realMarketData.length > 0
+    ? realMarketData.map(r => `- ${r.district}: ₹${r.pricePerQuintal}/qtl (${r.marketType}) on ${r.publishDate?.toISOString().slice(0, 10)}`).join('\n')
+    : "No recent database records found for this specific district/commodity combination.";
 
   const prompt = `You are an expert Indian agricultural market analyst with deep knowledge of mandi prices across India.
 Today's date: ${todayStr}
 
 Provide realistic, accurate commodity price intelligence for "${commodity}" based on current Indian market conditions.
 District: ${district}, State: ${state}
+
+GROUND TRUTH DATA FROM OUR RECENT SCAN:
+${recordsSummary}
+
+Use the ground truth data above to inform your response. If the database records are slightly old or from nearby districts, use your expertise to estimate today's exact modal prices for "${commodity}" in ${district}, ${state}.
 
 Return ONLY a valid JSON object (no markdown, no code fences) with this exact structure:
 {

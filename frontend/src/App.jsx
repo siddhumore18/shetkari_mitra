@@ -38,6 +38,10 @@ import Fertilizers from './pages/admin/Fertilizers';
 import AgronomistDashboard from './pages/agronomist/AgronomistDashboard';
 import AgronomistProfile from './pages/agronomist/AgronomistProfile';
 
+// Retailer Pages
+import RetailerDashboard from './pages/retailer/RetailerDashboard';
+import RetailerMarketplace from './pages/retailer/RetailerMarketplace';
+
 // ── Public page minimal top bar ────────────────────────────────────────────
 const PublicTopBar = () => {
   const { user } = useAuth();
@@ -166,6 +170,14 @@ function App() {
           {/* Agronomist */}
           <Route path="/agronomist" element={<ProtectedRoute allowedRoles={['agronomist']}><AgronomistDashboard /></ProtectedRoute>} />
           <Route path="/agronomist/profile" element={<ProtectedRoute allowedRoles={['agronomist']}><AgronomistProfile /></ProtectedRoute>} />
+
+          {/* Retailer */}
+          <Route path="/retailer" element={<ProtectedRoute allowedRoles={['retailer']}><RetailerDashboard /></ProtectedRoute>} />
+          <Route path="/retailer/marketplace" element={<ProtectedRoute allowedRoles={['retailer']}><RetailerMarketplace /></ProtectedRoute>} />
+          <Route path="/retailer/weather" element={<ProtectedRoute allowedRoles={['retailer']}><Weather /></ProtectedRoute>} />
+          <Route path="/retailer/market" element={<ProtectedRoute allowedRoles={['retailer']}><Market /></ProtectedRoute>} />
+          <Route path="/retailer/supply-chain" element={<ProtectedRoute allowedRoles={['retailer']}><SupplyChainDashboard /></ProtectedRoute>} />
+          <Route path="/retailer/profile" element={<ProtectedRoute allowedRoles={['retailer']}><UserProfile /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

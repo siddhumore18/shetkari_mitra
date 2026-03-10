@@ -250,9 +250,28 @@ export const mediaAPI = {
   }
 };
 
+// Supply Chain APIs
+export const supplyChainAPI = {
+  createListing: (data) => api.post('/supply-chain/listings', data),
+  getNearbyListings: (lat, lon, distance) => api.get('/supply-chain/listings/nearby', { params: { latitude: lat, longitude: lon, distance } }),
+  deleteListing: (id) => api.delete(`/supply-chain/listings/${id}`),
+  getExternalProcessingCenters: (lat, lon, radius) => api.get('/supply-chain/external/processing-centers', { params: { latitude: lat, longitude: lon, radius } }),
+  sendRequest: (data) => api.post('/supply-chain/collaboration/request', data),
+  updateRequestStatus: (data) => api.patch('/supply-chain/collaboration/status', data),
+  getMyCollaborations: () => api.get('/supply-chain/collaboration/my-stats'),
+};
+
 // Scheme APIs
 export const schemeAPI = {
   getRecommendations: (lang) => api.get('/schemes/recommendations', { params: { lang } }),
+};
+
+// Expert Chat APIs
+export const expertChatAPI = {
+  initChat: (otherUserId) => api.post('/expert-chat/init', { otherUserId }),
+  getMyChats: () => api.get('/expert-chat/my-chats'),
+  getChatHistory: (chatId) => api.get(`/expert-chat/${chatId}`),
+  sendMessage: (chatId, text) => api.post(`/expert-chat/${chatId}/message`, { text }),
 };
 
 export default api;

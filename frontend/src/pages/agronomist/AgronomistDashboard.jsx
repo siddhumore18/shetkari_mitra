@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
-import { agronomistAPI, cropAPI } from '../../services/api';
+import { agronomistAPI, cropAPI, expertChatAPI } from '../../services/api';
+import socket from '../../services/socket';
+import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
+import ExpertChatRoom from '../../components/ExpertChatRoom';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
 
@@ -14,6 +18,9 @@ const getCropEmoji = (name = '') => {
 };
 
 const AgronomistDashboard = () => {
+  const { user } = useAuth();
+  const { t } = useLanguage();
+
   const [localFarmers, setLocalFarmers] = useState([]);
   const [loadingFarmers, setLoadingFarmers] = useState(true);
   const [farmerError, setFarmerError] = useState('');
@@ -22,8 +29,39 @@ const AgronomistDashboard = () => {
   const [viewingFarmerName, setViewingFarmerName] = useState('');
   const [crops, setCrops] = useState([]);
   const [loadingCrops, setLoadingCrops] = useState(false);
+  const [activeChats, setActiveChats] = useState([]);
+  const [selectedChatFarmer, setSelectedChatFarmer] = useState(null);
 
-  useEffect(() => { fetchLocalFarmers(); }, []);
+  useEffect(() => {
+    fetchLocalFarmers();
+    fetchActiveChats();
+
+    // Socket: Join personal room for notifications
+    if (user?._id) {
+      if (!socket.connected) socket.connect();
+      socket.emit('join_user', user._id);
+    }
+
+    const handleNotification = (data) => {
+      console.log('📬 New Chat Notification:', data);
+      fetchActiveChats();
+    };
+
+    socket.on('expert_chat_notification', handleNotification);
+
+    return () => {
+      socket.off('expert_chat_notification', handleNotification);
+    };
+  }, [user?._id]);
+
+  const fetchActiveChats = async () => {
+    try {
+      const res = await expertChatAPI.getMyChats();
+      setActiveChats(res.data.data);
+    } catch (err) {
+      console.error('Failed to fetch chats:', err);
+    }
+  };
 
   const fetchLocalFarmers = async () => {
     try {
@@ -65,18 +103,70 @@ const AgronomistDashboard = () => {
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-3xl shadow-inner shrink-0">🔬</div>
               <div>
-                <p className="text-teal-200 text-xs font-semibold uppercase tracking-wider mb-1">Agricultural Expert</p>
-                <h1 className="text-3xl font-extrabold text-white mb-1">Agronomist Dashboard</h1>
-                <p className="text-teal-100 text-sm max-w-lg">Help farmers in your district by viewing their crops and providing professional agricultural guidance.</p>
+                <p className="text-teal-200 text-xs font-semibold uppercase tracking-wider mb-1">{t('Agricultural Expert')}</p>
+                <h1 className="text-3xl font-extrabold text-white mb-1">{t('Agronomist Dashboard')}</h1>
+                <p className="text-teal-100 text-sm max-w-lg">{t('Help farmers in your district by viewing their crops and providing professional agricultural guidance.')}</p>
               </div>
             </div>
             <Badge className="hidden sm:flex items-center gap-1.5 bg-white/20 border border-white/20 text-white text-sm px-4 py-2">
               <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              Active
+              {t('Active')}
             </Badge>
           </div>
         </CardContent>
       </Card>
+
+      {/* ── Farmer Inquiries (Chats) ── */}
+      {/* <Card className="border-emerald-200 bg-white dark:bg-zinc-900 overflow-hidden shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-6 py-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center text-lg">💬</div>
+            <CardTitle className="text-lg font-bold">{t('Recent Inquiries')}</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          {activeChats.length === 0 ? (
+            <div className="p-10 text-center opacity-40">
+              <p className="text-sm font-bold italic">{t('No active inquiries at the moment.')}</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-border">
+              {activeChats.map(chat => (
+                <div
+                  key={chat._id}
+                  onClick={() => setSelectedChatFarmer(chat.farmerId._id)}
+                  className="p-4 hover:bg-emerald-50/50 dark:hover:bg-zinc-800/50 cursor-pointer transition-all flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 font-bold overflow-hidden border-2 border-transparent group-hover:border-emerald-500/30 transition-all">
+                      {chat.farmerId.profilePhoto?.url ? (
+                        <img src={chat.farmerId.profilePhoto.url} className="w-full h-full object-cover" />
+                      ) : chat.farmerId.fullName?.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-foreground group-hover:text-emerald-600 transition-colors">{chat.farmerId.fullName}</p>
+                      <p className="text-xs text-muted-foreground truncate max-w-[180px] sm:max-w-[300px]">
+                        {chat.messages?.[chat.messages.length - 1]?.text || t('No messages yet')}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <p className="text-[10px] font-medium text-muted-foreground">
+                      {new Date(chat.lastMessageAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Badge variant="outline" className="text-[10px] bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50 font-bold px-2">
+                        {t('Reply')}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card> */}
 
       {/* ── Tip ── */}
       <Card className="border-cyan-200 bg-cyan-50 dark:bg-cyan-950/20 dark:border-cyan-800/30">
@@ -140,14 +230,36 @@ const AgronomistDashboard = () => {
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-extrabold text-foreground truncate">{farmer.fullName}</h3>
-                        <p className="text-xs text-muted-foreground mt-0.5">📞 {farmer.mobileNumber}</p>
-                        {farmer.district && <p className="text-xs text-teal-600 mt-0.5">📍 {farmer.district}</p>}
+                        <h3 className="font-extrabold text-lg text-foreground truncate hover:text-teal-600 transition-colors">{farmer.fullName}</h3>
+                        <p className="text-sm font-semibold text-muted-foreground mt-0.5 flex items-center gap-1.5">
+                          <span className="text-rose-500">📞</span> {farmer.mobileNumber}
+                        </p>
+                        {farmer.district && (
+                          <p className="text-xs font-bold text-teal-600 mt-1 flex items-center gap-1.5">
+                            <span className="text-teal-500">📍</span> {farmer.district}
+                          </p>
+                        )}
                       </div>
                     </div>
+
+                    <div className="grid grid-cols-2 gap-3 mb-3">
+                      <button
+                        onClick={() => setSelectedChatFarmer(farmer.id)}
+                        className="flex items-center justify-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 rounded-xl font-bold text-xs border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-100 transition-all shadow-sm"
+                      >
+                        💬 {t('Chat')}
+                      </button>
+                      <a
+                        href={`tel:${farmer.mobileNumber}`}
+                        className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded-xl font-bold text-xs border border-blue-200 dark:border-blue-800/50 hover:bg-blue-100 transition-all shadow-sm"
+                      >
+                        📞 {t('Call')}
+                      </a>
+                    </div>
+
                     <button onClick={() => handleViewCrops(farmer)}
                       className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                      🌾 View Crops
+                      🌾 {t('View Crops')}
                     </button>
                   </CardContent>
                 </Card>
@@ -223,6 +335,15 @@ const AgronomistDashboard = () => {
             </CardContent>
           </Card>
         </div>
+      )}
+      {selectedChatFarmer && (
+        <ExpertChatRoom
+          otherUserId={selectedChatFarmer}
+          onClose={() => {
+            setSelectedChatFarmer(null);
+            fetchActiveChats();
+          }}
+        />
       )}
     </div>
   );

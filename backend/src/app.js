@@ -19,6 +19,7 @@ import mlServerRoutes from './routes/mlServer.routes.js';
 import geminiRoutes from './routes/gemini.routes.js';
 import supplyChainRoutes from './routes/supplyChain.routes.js';
 import schemeRoutes from './routes/scheme.routes.js';
+import expertChatRoutes from './routes/expertChat.routes.js';
 
 // --- Import Error Middleware ---
 import { errorHandler } from './middleware/error.middleware.js';
@@ -80,6 +81,7 @@ app.use('/api/v1/ml-server', mlServerRoutes);
 app.use('/api/v1/disease-info', geminiRoutes);
 app.use('/api/v1/supply-chain', supplyChainRoutes);
 app.use('/api/v1/schemes', schemeRoutes);
+app.use('/api/v1/expert-chat', expertChatRoutes);
 
 // --- 404 Handler for unknown routes ---
 app.use((req, res, next) => {

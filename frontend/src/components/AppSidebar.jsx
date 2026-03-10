@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Home, Sprout, ClipboardList, CloudSun, BarChart3, Users, Microscope,
     UserCircle, LogOut, Truck, ChevronRight, ChevronLeft, Menu,
-    Sun, Moon, Globe, MessageSquare, Settings, ShieldCheck, X, PanelLeft
+    Sun, Moon, Globe, MessageSquare, Settings, ShieldCheck, X, PanelLeft, Store
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -40,12 +40,20 @@ const NAV_CONFIG = {
         { path: '/agronomist', label: 'Dashboard', icon: Home },
         { path: '/agronomist/profile', label: 'Profile Settings', icon: UserCircle },
     ],
+    retailer: [
+        { path: '/retailer', label: 'Dashboard', icon: Home },
+        { path: '/retailer/marketplace', label: 'Marketplace', icon: Store },
+        { path: '/retailer/weather', label: 'Weather Updates', icon: CloudSun },
+        { path: '/retailer/market', label: 'Market Trends', icon: BarChart3 },
+        { path: '/retailer/supply-chain', label: 'Supply Chain', icon: Truck },
+    ],
 };
 
 const ROLE_COLORS = {
     farmer: { bg: 'bg-emerald-600', ring: 'ring-emerald-400', label: 'Farmer', icon: '👨‍🌾' },
     admin: { bg: 'bg-indigo-600', ring: 'ring-indigo-400', label: 'Admin', icon: '🛡️' },
     agronomist: { bg: 'bg-teal-600', ring: 'ring-teal-400', label: 'Expert', icon: '🔬' },
+    retailer: { bg: 'bg-blue-600', ring: 'ring-blue-400', label: 'Retailer', icon: '🏪' },
 };
 
 // ── Sidebar Nav Item ───────────────────────────────────────────────────────

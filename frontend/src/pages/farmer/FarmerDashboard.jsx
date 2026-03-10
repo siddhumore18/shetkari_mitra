@@ -27,10 +27,12 @@ import {
   Sparkles
 } from 'lucide-react';
 import { agronomistAPI, weatherAPI, cropAPI, marketAPI } from '../../services/api';
+import socket from '../../services/socket';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import LocationPromptModal from '../../components/LocationPromptModal';
+import ExpertChatRoom from '../../components/ExpertChatRoom';
 
 // ── Fix Leaflet default icon issue with Vite ───────────────────────────────
 delete L.Icon.Default.prototype._getIconUrl;
@@ -130,6 +132,7 @@ const FarmerDashboard = () => {
   const [loadingAgronomists, setLoadingAgronomists] = useState(true);
   const [agronomistError, setAgronomistError] = useState('');
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedChatAgronomist, setSelectedChatAgronomist] = useState(null);
   const [showLocationPrompt, setShowLocationPrompt] = useState(false);
   const [tipIndex, setTipIndex] = useState(0);
   const [tipFading, setTipFading] = useState(false);
@@ -142,6 +145,25 @@ const FarmerDashboard = () => {
   const [marketTrend, setMarketTrend] = useState(71);
   const [profitConf, setProfitConf] = useState(82);
   const heroRef = useRef(null);
+
+  useEffect(() => {
+    // Socket: Join personal room for notifications
+    if (user?._id) {
+      if (!socket.connected) socket.connect();
+      socket.emit('join_user', user._id);
+    }
+
+    const handleNotification = (data) => {
+      console.log('📨 New Reply from Agronomist:', data);
+      // Optional: Add toast or alert here
+    };
+
+    socket.on('expert_chat_notification', handleNotification);
+
+    return () => {
+      socket.off('expert_chat_notification', handleNotification);
+    };
+  }, [user?._id]);
 
   // Farmer location for map
   const farmerLat = user?.location?.coordinates?.[1];
@@ -426,12 +448,15 @@ const FarmerDashboard = () => {
                           <p className="text-xs text-blue-600 font-semibold mb-2">Verified Agronomist</p>
                           {ag.mobileNumber && (
                             <div className="flex gap-2">
-                              <a href={`tel:${agro.mobileNumber}`} className="flex-1 flex items-center justify-center gap-1.5 bg-emerald-600 text-white text-[10px] font-bold py-1.5 rounded-lg">
-                                <Zap size={10} /> Call
+                              <a href={`tel:${ag.mobileNumber}`} className="flex-1 flex items-center justify-center gap-1.5 bg-emerald-600 text-white text-[10px] font-bold py-1.5 rounded-lg transition-colors hover:bg-emerald-700">
+                                <Zap size={10} /> {t('Call')}
                               </a>
-                              <a href={`https://wa.me/91${ag.mobileNumber}`} target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-1 bg-[#25D366] text-white text-[10px] font-bold py-1.5 rounded-lg">
-                                WhatsApp
-                              </a>
+                              <button
+                                onClick={() => setSelectedChatAgronomist(ag.user?._id || ag.id)}
+                                className="flex-1 flex items-center justify-center gap-1.5 bg-blue-600 text-white text-[10px] font-bold py-1.5 rounded-lg transition-colors hover:bg-blue-700"
+                              >
+                                <MessageSquare size={10} /> {t('Chat')}
+                              </button>
                             </div>
                           )}
                         </div>
@@ -641,6 +666,12 @@ const FarmerDashboard = () => {
                           className="flex-1 flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#22c55e] text-white text-xs font-bold py-2 rounded-xl transition-colors shadow-sm">
                           WhatsApp
                         </a>
+                        <button
+                          onClick={() => setSelectedChatAgronomist(agro.user?._id || agro.id)}
+                          className="flex-1 flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-xl transition-colors shadow-sm"
+                        >
+                          <MessageSquare size={12} /> {t('Chat')}
+                        </button>
                       </div>
                     )}
                   </div>
@@ -681,6 +712,13 @@ const FarmerDashboard = () => {
       )}
 
       {showLocationPrompt && <LocationPromptModal onClose={() => setShowLocationPrompt(false)} />}
+
+      {selectedChatAgronomist && (
+        <ExpertChatRoom
+          otherUserId={selectedChatAgronomist}
+          onClose={() => setSelectedChatAgronomist(null)}
+        />
+      )}
     </div>
   );
 };

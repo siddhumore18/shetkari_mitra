@@ -138,19 +138,10 @@ const PriceIntelPanel = ({ commodity, district, state, onClose }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('nearby'); // nearby | major | chart
-    const [showKeyModal, setShowKeyModal] = useState(false);
     const panelRef = useRef(null);
 
     useEffect(() => {
         let cancelled = false;
-
-        // Check for User's API Key
-        const userStored = JSON.parse(localStorage.getItem('user'));
-        if (!userStored?.groqApiKey) {
-            setShowKeyModal(true);
-            setLoading(false);
-            return;
-        }
 
         setLoading(true); setError(null); setData(null);
         geminiAPI.getMarketPrices(commodity, district, state)
@@ -532,7 +523,6 @@ const PriceIntelPanel = ({ commodity, district, state, onClose }) => {
                     </p>
                 </div>
             )}
-            <AIKeyModal isOpen={showKeyModal} onClose={() => { setShowKeyModal(false); onClose(); }} />
         </div>
     );
 };

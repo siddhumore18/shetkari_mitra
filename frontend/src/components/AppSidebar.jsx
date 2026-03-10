@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Home, Sprout, ClipboardList, CloudSun, BarChart3, Users, Microscope,
     UserCircle, LogOut, Truck, ChevronRight, ChevronLeft, Menu,
-    Sun, Moon, Globe, MessageSquare, Settings, ShieldCheck, X, PanelLeft, Store
+    Sun, Moon, Globe, MessageSquare, Settings, ShieldCheck, X, PanelLeft, Store, Tractor
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -26,6 +26,7 @@ const NAV_CONFIG = {
         { path: '/farmer/weather', label: 'Weather Updates', icon: CloudSun },
         { path: '/farmer/market', label: 'Market Trends', icon: BarChart3 },
         { path: '/farmer/schemes', label: 'Govt Schemes', icon: ClipboardList },
+        { path: '/farmer/equipment', label: 'Equipment Market', icon: Tractor },
         { path: '/farmer/supply-chain', label: 'Supply Chain', icon: Truck },
     ],
     admin: [

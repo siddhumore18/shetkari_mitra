@@ -24,7 +24,8 @@ import {
   TrendingUp,
   AlertTriangle,
   Zap,
-  Sparkles
+  Sparkles,
+  Tractor
 } from 'lucide-react';
 import { agronomistAPI, weatherAPI, cropAPI, marketAPI } from '../../services/api';
 import socket from '../../services/socket';
@@ -238,6 +239,7 @@ const FarmerDashboard = () => {
     { to: '/farmer/crops', icon: Sprout, title: t('My Crops'), desc: t('Manage & track your crops'), gradient: 'from-emerald-500 to-green-600', bg: 'bg-emerald-50', halo: '#22c55e' },
     { to: '/farmer/disease-reports', icon: ScanSearch, title: t('AI Disease Detection'), desc: t('Detect crop diseases with AI'), gradient: 'from-orange-500 to-red-500', bg: 'bg-orange-50', halo: '#f97316' },
     { to: '/farmer/weather', icon: CloudSun, title: t('Weather Forecast'), desc: t('7-day forecast for your farm'), gradient: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50', halo: '#3b82f6' },
+    { to: '/farmer/equipment', icon: Tractor, title: t('Equipment Market'), desc: t('Rent or list machinery nearby'), gradient: 'from-amber-500 to-yellow-500', bg: 'bg-amber-50', halo: '#f59e0b' },
     { to: '/farmer/market', icon: LineChart, title: t('Market Prices'), desc: t('Live mandi prices near you'), gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-50', halo: '#8b5cf6' },
     { to: '/profile', icon: UserIcon, title: t('My Profile'), desc: t('Update location & settings'), gradient: 'from-rose-500 to-pink-500', bg: 'bg-rose-50', halo: '#f43f5e' },
   ];

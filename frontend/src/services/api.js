@@ -274,5 +274,13 @@ export const expertChatAPI = {
   sendMessage: (chatId, text) => api.post(`/expert-chat/${chatId}/message`, { text }),
 };
 
+// Equipment Rental APIs
+export const equipmentAPI = {
+  getNearby: (radius = 50, type = '') => api.get('/equipment/nearby', { params: { radius, type } }),
+  getMyListings: () => api.get('/equipment/my-listings'),
+  create: (data) => api.post('/equipment', data),
+  update: (id, data) => api.patch(`/equipment/${id}`, data)
+};
+
 export default api;
 

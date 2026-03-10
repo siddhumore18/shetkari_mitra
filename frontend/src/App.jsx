@@ -25,6 +25,7 @@ import Weather from './pages/farmer/Weather';
 import Market from './pages/farmer/Market';
 import SupplyChainDashboard from './pages/farmer/SupplyChainDashboard';
 import Schemes from './pages/farmer/Schemes';
+import EquipmentMarketplace from './pages/farmer/EquipmentMarketplace';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -156,6 +157,7 @@ function App() {
           <Route path="/farmer/market" element={<ProtectedRoute allowedRoles={['farmer']}><Market /></ProtectedRoute>} />
           <Route path="/farmer/supply-chain" element={<ProtectedRoute allowedRoles={['farmer']}><SupplyChainDashboard /></ProtectedRoute>} />
           <Route path="/farmer/schemes/:id?" element={<ProtectedRoute allowedRoles={['farmer']}><Schemes /></ProtectedRoute>} />
+          <Route path="/farmer/equipment" element={<ProtectedRoute allowedRoles={['farmer']}><EquipmentMarketplace /></ProtectedRoute>} />
           <Route path="/farmer/profile" element={<ProtectedRoute allowedRoles={['farmer']}><UserProfile /></ProtectedRoute>} />
 
           {/* Admin */}

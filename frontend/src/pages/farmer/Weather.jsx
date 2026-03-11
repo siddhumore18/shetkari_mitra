@@ -876,7 +876,7 @@ const Weather = () => {
                           const fInfo = fDay ? getWeatherDescription(fDay.weatherCode) : null;
                           return (
                             <div key={i} style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 11 }}>
-                              <div style={{ position: 'absolute', left: -22, width: 12, height: 12, background: ac.dot, borderRadius: '50%', border: '2px solid #0a0f1e', top: 11, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <div style={{ position: 'absolute', left: -22, width: 12, height: 12, background: ac.dot, borderRadius: '50%', border: '2px solid #EAF5EA', top: 11, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <div style={{ width: 6, height: 6, background: 'white', borderRadius: '50%' }} />
                               </div>
                               <div style={{ flex: 1, background: `rgba(255,255,255,0.03)`, border: `1px solid ${ac.border}`, borderRadius: 14, padding: '11px 14px', display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'flex-start' }}>

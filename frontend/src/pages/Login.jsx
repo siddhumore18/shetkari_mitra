@@ -42,13 +42,10 @@ const Login = () => {
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden ${isDark
-      ? 'bg-gradient-to-br from-[#0a0f1e] via-[#1e1b4b] to-[#0f2417]'
-      : 'bg-gradient-to-br from-emerald-50 via-green-50 to-teal-100'
-      }`}>
+    <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-teal-100`}>
       {/* Background decorations */}
-      <div className={`absolute top-0 left-0 w-72 h-72 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 ${isDark ? 'bg-indigo-500/10' : 'bg-emerald-200/30'}`} />
-      <div className={`absolute bottom-0 right-0 w-80 h-80 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 ${isDark ? 'bg-emerald-500/10' : 'bg-teal-200/30'}`} />
+      <div className={`absolute top-0 left-0 w-72 h-72 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 bg-emerald-200/30`} />
+      <div className={`absolute bottom-0 right-0 w-80 h-80 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 bg-teal-200/30`} />
 
       <div className="relative max-w-md w-full">
         {/* Logo above card */}
@@ -57,13 +54,13 @@ const Login = () => {
             <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center shadow-2xl shadow-emerald-300/50">
               <Sprout size={40} className="text-white" />
             </div>
-            <h1 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-gray-900'}`}>KrishiBandhu</h1>
-            <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Crop Shield for India's Farmers</p>
+            <h1 className={`text-2xl font-extrabold text-gray-900`}>KrishiBandhu</h1>
+            <p className={`text-sm text-gray-500`}>Crop Shield for India's Farmers</p>
           </div>
         </div>
 
         {/* Card */}
-        <div className={`rounded-3xl shadow-2xl overflow-hidden ${isDark ? 'bg-[#0f172a] border border-white/10' : 'bg-white border border-gray-100'}`}>
+        <div className={`rounded-3xl shadow-2xl overflow-hidden bg-white border border-gray-100`}>
           {/* Header */}
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-6 text-center">
             <h2 className="text-2xl font-extrabold text-white">{t('Sign in to your account')}</h2>
@@ -81,36 +78,30 @@ const Login = () => {
 
             {/* Mobile Number */}
             <div>
-              <label htmlFor="mobileNumber" className={`block text-sm font-bold mb-2 flex items-center gap-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+              <label htmlFor="mobileNumber" className={`block text-sm font-bold mb-2 flex items-center gap-2 text-gray-700`}>
                 <Smartphone size={16} /> {t('Mobile Number')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <span className={`font-semibold ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>+91</span>
+                  <span className={`font-semibold text-gray-400`}>+91</span>
                 </div>
                 <input id="mobileNumber" name="mobileNumber" type="tel" required
                   value={mobileNumber} onChange={e => setMobileNumber(e.target.value)}
                   placeholder="10-digit mobile number"
-                  className={`block w-full pl-14 pr-4 py-3.5 border-2 rounded-2xl outline-none transition-all ${isDark
-                    ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20'
-                    : 'border-gray-200 text-gray-800 focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400'
-                    }`} />
+                  className={`block w-full pl-14 pr-4 py-3.5 border-2 rounded-2xl outline-none transition-all border-gray-200 text-gray-800 focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400`} />
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className={`block text-sm font-bold mb-2 flex items-center gap-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+              <label htmlFor="password" className={`block text-sm font-bold mb-2 flex items-center gap-2 text-gray-700`}>
                 <Lock size={16} /> {t('Password')}
               </label>
               <div className="relative">
                 <input id="password" name="password" type={showPassword ? 'text' : 'password'} required
                   value={password} onChange={e => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className={`block w-full pl-4 pr-12 py-3.5 border-2 rounded-2xl outline-none transition-all ${isDark
-                    ? 'bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20'
-                    : 'border-gray-200 text-gray-800 focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400'
-                    }`} />
+                  className={`block w-full pl-4 pr-12 py-3.5 border-2 rounded-2xl outline-none transition-all border-gray-200 text-gray-800 focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400`} />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-700 transition-colors">
                   {showPassword
@@ -132,7 +123,7 @@ const Login = () => {
             </button>
 
             {/* Register link */}
-            <p className={`text-center text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className={`text-center text-sm text-gray-500`}>
               {t("Don't have an account?")}{' '}
               <Link to="/register" className="font-extrabold text-emerald-500 hover:text-emerald-400 transition-colors">
                 {t('Register')}
@@ -148,11 +139,11 @@ const Login = () => {
             { icon: Sprout, color: 'text-emerald-600', label: 'For Farmers' },
             { icon: Flag, color: 'text-orange-500', label: 'Made in India' },
           ].map((item, i) => (
-            <div key={i} className={`backdrop-blur rounded-2xl py-3 px-2 shadow-sm ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white/70 border border-white'}`}>
+            <div key={i} className={`backdrop-blur rounded-2xl py-3 px-2 shadow-sm bg-white/70 border border-white`}>
               <div className="flex justify-center mb-1">
                 <item.icon size={24} className={item.color} />
               </div>
-              <p className={`text-[10px] font-bold uppercase tracking-tight ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{item.label}</p>
+              <p className={`text-[10px] font-bold uppercase tracking-tight text-gray-500`}>{item.label}</p>
             </div>
           ))}
         </div>

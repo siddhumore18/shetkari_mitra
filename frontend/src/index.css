@@ -10,64 +10,64 @@
 :root,
 [data-theme="dark"] {
   /* Backgrounds */
-  --bg-page: #0a0f1e;
-  --bg-page-2: #060a14;
-  --bg-card: rgba(30, 41, 59, 0.7);
-  --bg-card-solid: #0f172a;
-  --bg-card-hover: rgba(51, 65, 85, 0.8);
-  --bg-input: rgba(15, 23, 42, 0.6);
-  --bg-navbar: linear-gradient(135deg, #1e1b4b, #312e81);
-  --bg-panel: #0f172a;
-  --bg-header: linear-gradient(135deg, #4338ca, #7c3aed);
+  --bg-page: #F8FAF8;
+  --bg-page-2: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-solid: #FFFFFF;
+  --bg-card-hover: #EAF5EA;
+  --bg-input: #F8FAF8;
+  --bg-navbar: #6BAF6B;
+  --bg-panel: #FFFFFF;
+  --bg-header: #8FD694;
 
   /* Borders */
-  --border-card: rgba(255, 255, 255, 0.1);
-  --border-accent: rgba(99, 102, 241, 0.4);
-  --border-input: rgba(148, 163, 184, 0.2);
+  --border-card: #EAF5EA;
+  --border-accent: #8FD694;
+  --border-input: #D3EBD3;
 
   /* Text */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-accent: #818cf8;
-  --text-link: #6366f1;
+  --text-primary: #2F3E2F;
+  --text-secondary: #467646;
+  --text-muted: #5A965A;
+  --text-accent: #385B38;
+  --text-link: #385B38;
 
   /* Accent */
-  --accent-primary: #6366f1;
-  --accent-secondary: #8b5cf6;
-  --accent-emerald: #10b981;
-  --accent-teal: #14b8a6;
-  --accent-amber: #f59e0b;
-  --accent-red: #ef4444;
+  --accent-primary: #6BAF6B;
+  --accent-secondary: #8FD694;
+  --accent-emerald: #6BAF6B;
+  --accent-teal: #6BAF6B;
+  --accent-amber: #8FD694;
+  --accent-red: #5A965A;
 
   /* Shadows */
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-accent: 0 8px 24px rgba(99, 102, 241, 0.35);
-  --shadow-navbar: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 4px 20px rgba(107, 175, 107, 0.12);
+  --shadow-accent: 0 4px 16px rgba(107, 175, 107, 0.25);
+  --shadow-navbar: 0 4px 20px rgba(107, 175, 107, 0.2);
 
   /* Scrollbar */
-  --scrollbar-thumb: #334155;
-  --scrollbar-track: #0f172a;
+  --scrollbar-thumb: #8FD694;
+  --scrollbar-track: #EAF5EA;
 
   /* ── shadcn/ui standard tokens ── */
-  --background: #0a0f1e;
-  --foreground: #f8fafc;
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
-  --popover: #0f172a;
-  --popover-foreground: #f8fafc;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: #10b981;
-  --muted-foreground: #94a3b8;
-  --accent-foreground: #f8fafc;
+  --background: #F8FAF8;
+  --foreground: #2F3E2F;
+  --card: #FFFFFF;
+  --card-foreground: #2F3E2F;
+  --popover: #FFFFFF;
+  --popover-foreground: #2F3E2F;
+  --border: #EAF5EA;
+  --input: #F8FAF8;
+  --ring: #6BAF6B;
+  --muted-foreground: #5A965A;
+  --accent-foreground: #2F3E2F;
 
-  /* ── shadcn Sidebar tokens (dark) ── */
-  --sidebar-background: #0b1120;
-  --sidebar-foreground: #cbd5e1;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-accent: rgba(255, 255, 255, 0.07);
-  --sidebar-accent-foreground: #f8fafc;
+  /* ── shadcn Sidebar tokens (force light) ── */
+  --sidebar-background: #F8FAF8;
+  --sidebar-foreground: #2F3E2F;
+  --sidebar-border: #EAF5EA;
+  --sidebar-accent: #EAF5EA;
+  --sidebar-accent-foreground: #2F3E2F;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -75,64 +75,64 @@
 ══════════════════════════════════════════════════════════════════════════ */
 [data-theme="light"] {
   /* Backgrounds */
-  --bg-page: #f8faff;
-  --bg-page-2: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-solid: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --bg-input: #f8fafc;
-  --bg-navbar: linear-gradient(135deg, #4338ca, #7c3aed);
-  --bg-panel: #ffffff;
-  --bg-header: linear-gradient(135deg, #4338ca, #7c3aed);
+  --bg-page: #F8FAF8;
+  --bg-page-2: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-solid: #FFFFFF;
+  --bg-card-hover: #EAF5EA;
+  --bg-input: #F8FAF8;
+  --bg-navbar: #6BAF6B;
+  --bg-panel: #FFFFFF;
+  --bg-header: #8FD694;
 
   /* Borders */
-  --border-card: #e2e8f0;
-  --border-accent: rgba(99, 102, 241, 0.3);
-  --border-input: #cbd5e1;
+  --border-card: #EAF5EA;
+  --border-accent: #8FD694;
+  --border-input: #D3EBD3;
 
   /* Text */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --text-accent: #4338ca;
-  --text-link: #6366f1;
+  --text-primary: #2F3E2F;
+  --text-secondary: #467646;
+  --text-muted: #5A965A;
+  --text-accent: #385B38;
+  --text-link: #385B38;
 
   /* Accent */
-  --accent-primary: #4f46e5;
-  --accent-secondary: #7c3aed;
-  --accent-emerald: #059669;
-  --accent-teal: #0d9488;
-  --accent-amber: #d97706;
-  --accent-red: #dc2626;
+  --accent-primary: #6BAF6B;
+  --accent-secondary: #8FD694;
+  --accent-emerald: #6BAF6B;
+  --accent-teal: #6BAF6B;
+  --accent-amber: #8FD694;
+  --accent-red: #5A965A;
 
   /* Shadows */
-  --shadow-card: 0 4px 20px rgba(99, 102, 241, 0.12);
-  --shadow-accent: 0 4px 16px rgba(99, 102, 241, 0.25);
-  --shadow-navbar: 0 4px 20px rgba(99, 102, 241, 0.2);
+  --shadow-card: 0 4px 20px rgba(107, 175, 107, 0.12);
+  --shadow-accent: 0 4px 16px rgba(107, 175, 107, 0.25);
+  --shadow-navbar: 0 4px 20px rgba(107, 175, 107, 0.2);
 
   /* Scrollbar */
-  --scrollbar-thumb: #c7d2fe;
-  --scrollbar-track: #e8eeff;
+  --scrollbar-thumb: #8FD694;
+  --scrollbar-track: #EAF5EA;
 
   /* ── shadcn/ui standard tokens ── */
-  --background: #f8faff;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --border: #e2e8f0;
-  --input: #f1f5f9;
-  --ring: #059669;
-  --muted-foreground: #64748b;
-  --accent-foreground: #0f172a;
+  --background: #F8FAF8;
+  --foreground: #2F3E2F;
+  --card: #FFFFFF;
+  --card-foreground: #2F3E2F;
+  --popover: #FFFFFF;
+  --popover-foreground: #2F3E2F;
+  --border: #EAF5EA;
+  --input: #F8FAF8;
+  --ring: #6BAF6B;
+  --muted-foreground: #5A965A;
+  --accent-foreground: #2F3E2F;
 
-  /* ── shadcn Sidebar tokens (light) ── */
-  --sidebar-background: #f1f5f9;
-  --sidebar-foreground: #334155;
-  --sidebar-border: #e2e8f0;
-  --sidebar-accent: #e2e8f0;
-  --sidebar-accent-foreground: #0f172a;
+  /* ── shadcn Sidebar tokens (force light) ── */
+  --sidebar-background: #F8FAF8;
+  --sidebar-foreground: #2F3E2F;
+  --sidebar-border: #EAF5EA;
+  --sidebar-accent: #EAF5EA;
+  --sidebar-accent-foreground: #2F3E2F;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -645,688 +645,164 @@ canvas,
    The Home page is built with hardcoded dark styles (bg-[#0a0f1e])
 ══════════════════════════════════════════════════════════════════════════ */
 [data-theme="light"] .home-root,
+[data-theme="dark"] .home-root,
 [data-theme="light"] [class*="min-h-screen"][class*="bg-\\[\\#0a0f1e\\]"],
-[data-theme="light"] [class*="min-h-screen"][class*="overflow-x-hidden"] {
-  background-color: #f0f4ff !important;
+[data-theme="dark"] [class*="min-h-screen"][class*="bg-\\[\\#0a0f1e\\]"],
+[data-theme="light"] [class*="min-h-screen"][class*="overflow-x-hidden"],
+[data-theme="dark"] [class*="min-h-screen"][class*="overflow-x-hidden"] {
+  background-color: #F8FAF8 !important;
 }
 
 /* Home page — all sections with dark bg */
 [data-theme="light"] .home-hero-section,
-[data-theme="light"] [class*="absolute"][class*="inset-0"][class*="bg-gradient-to-b"] {
-  background: linear-gradient(160deg, #f0f4ff 0%, #e8eeff 100%) !important;
+[data-theme="dark"] .home-hero-section,
+[data-theme="light"] [class*="absolute"][class*="inset-0"][class*="bg-gradient-to-b"],
+[data-theme="dark"] [class*="absolute"][class*="inset-0"][class*="bg-gradient-to-b"] {
+  background: linear-gradient(160deg, #F8FAF8 0%, #EAF5EA 100%) !important;
 }
 
 /* Home hero text */
 [data-theme="light"] h1.text-white,
+[data-theme="dark"] h1.text-white,
 [data-theme="light"] h2.text-white,
+[data-theme="dark"] h2.text-white,
 [data-theme="light"] h3.text-white,
-[data-theme="light"] p.text-white {
-  color: #1e1b4b !important;
+[data-theme="dark"] h3.text-white,
+[data-theme="light"] p.text-white,
+[data-theme="dark"] p.text-white {
+  color: #2F3E2F !important;
 }
 
-[data-theme="light"] .text-gray-300 {
-  color: #374151 !important;
+[data-theme="light"] .text-gray-300,
+[data-theme="dark"] .text-gray-300 {
+  color: #467646 !important;
 }
 
-[data-theme="light"] .text-gray-400 {
-  color: #6b7280 !important;
+[data-theme="light"] .text-gray-400,
+[data-theme="dark"] .text-gray-400 {
+  color: #5A965A !important;
 }
 
-[data-theme="light"] .text-gray-600 {
-  color: #4b5563 !important;
+[data-theme="light"] .text-gray-600,
+[data-theme="dark"] .text-gray-600 {
+  color: #385B38 !important;
 }
 
 /* glass utility used in Home */
-[data-theme="light"] .glass {
-  background: rgba(99, 102, 241, 0.07) !important;
+[data-theme="light"] .glass,
+[data-theme="dark"] .glass {
+  background: rgba(107, 175, 107, 0.07) !important;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(99, 102, 241, 0.2) !important;
+  border: 1px solid rgba(107, 175, 107, 0.2) !important;
 }
 
 /* Home stats section background */
 [data-theme="light"] section [class*="bg-gradient-to-b"][class*="from-\\[\\#0a0f1e\\]"],
+[data-theme="dark"] section [class*="bg-gradient-to-b"][class*="from-\\[\\#0a0f1e\\]"],
 [data-theme="light"] section [class*="bg-\\[\\#060a14\\]"],
-[data-theme="light"] section [class*="bg-\\[\\#0a0f1e\\]"] {
+[data-theme="dark"] section [class*="bg-\\[\\#060a14\\]"],
+[data-theme="light"] section [class*="bg-\\[\\#0a0f1e\\]"],
+[data-theme="dark"] section [class*="bg-\\[\\#0a0f1e\\]"] {
   background: transparent !important;
 }
 
 /* Footer */
-[data-theme="light"] footer.border-t {
-  border-color: rgba(99, 102, 241, 0.2) !important;
+[data-theme="light"] footer.border-t,
+[data-theme="dark"] footer.border-t {
+  border-color: rgba(107, 175, 107, 0.2) !important;
 }
 
-[data-theme="light"] footer p {
-  color: #4b5563 !important;
+[data-theme="light"] footer p,
+[data-theme="dark"] footer p {
+  color: #385B38 !important;
 }
 
 /* Floating badges in hero */
-[data-theme="light"] .absolute.bg-white\/95 {
+[data-theme="light"] .absolute.bg-white\/95,
+[data-theme="dark"] .absolute.bg-white\/95 {
   background: #fff !important;
-  color: #1e1b4b !important;
+  color: #2F3E2F !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   LOGIN PAGE — Light / Dark Mode
+   CHATBOT WINDOW — Custom Green Match
 ══════════════════════════════════════════════════════════════════════════ */
-/* Light is the native style — apply dark overrides */
-[data-theme="dark"] .login-page-bg {
-  background: linear-gradient(135deg, #0a0f1e 0%, #1e1b4b 100%) !important;
-}
-
-[data-theme="dark"] .login-page-bg .bg-white {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-[data-theme="dark"] .login-page-bg h1,
-[data-theme="dark"] .login-page-bg h2,
-[data-theme="dark"] .login-page-bg label,
-[data-theme="dark"] .login-page-bg p {
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .login-page-bg input {
-  background: rgba(99, 102, 241, 0.08) !important;
-  border-color: rgba(99, 102, 241, 0.25) !important;
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .login-page-bg input::placeholder {
-  color: #475569 !important;
-}
-
-[data-theme="dark"] .login-page-bg .bg-white\/70 {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  color: #94a3b8 !important;
-}
-
-/* Shared: Login & Register page root container */
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 {
-  background: linear-gradient(135deg, #0a0f1e 0%, #1e1b4b 50%, #0f2417 100%) !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 .bg-white,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 .bg-white {
-  background: #0f172a !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 label,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 label {
-  color: #94a3b8 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 input,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 input,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 select,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 select {
-  background: rgba(99, 102, 241, 0.08) !important;
-  border-color: rgba(99, 102, 241, 0.25) !important;
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 input::placeholder,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 input::placeholder {
-  color: #475569 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 h1,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 h1,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 h2,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 h2 {
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 p,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 p {
-  color: #94a3b8 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 .text-gray-700,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 .text-gray-700 {
-  color: #94a3b8 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50 .text-gray-500,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-green-50 .text-gray-500 {
-  color: #64748b !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   FARMER DASHBOARD — Dark Mode Overrides
-   Native style is light (from-emerald-50 via-green-50 to-teal-50)
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 {
-  background: linear-gradient(135deg, #0a0f1e 0%, #0e1a10 100%) !important;
-}
-
-/* Cards inside Farmer Dashboard */
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 .bg-white {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 .text-gray-900,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 h1,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 h2,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 h3 {
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 .text-gray-500,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 .text-gray-400 {
-  color: #64748b !important;
-}
-
-/* Quick action cards */
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-emerald-50.via-green-50 .bg-white.rounded-2xl {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-
-/* Tip of the Day */
-[data-theme="dark"] .bg-amber-50 {
-  background: rgba(245, 158, 11, 0.1) !important;
-  border-color: rgba(245, 158, 11, 0.25) !important;
-}
-
-[data-theme="dark"] .text-amber-800 {
-  color: #fbbf24 !important;
-}
-
-[data-theme="dark"] .text-amber-900 {
-  color: #fde68a !important;
-}
-
-/* Error alert in farmer dashboard */
-[data-theme="dark"] .bg-red-50 {
-  background: rgba(239, 68, 68, 0.1) !important;
-  border-color: rgba(239, 68, 68, 0.25) !important;
-}
-
-[data-theme="dark"] .text-red-700 {
-  color: #f87171 !important;
-}
-
-[data-theme="dark"] .text-red-800 {
-  color: #fca5a5 !important;
-}
-
-/* Agronomist cards */
-[data-theme="dark"] .bg-gradient-to-br.from-emerald-50.to-white {
-  background: rgba(16, 185, 129, 0.08) !important;
-  border-color: rgba(16, 185, 129, 0.2) !important;
-}
-
-[data-theme="dark"] .text-emerald-600 {
-  color: #34d399 !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   AGRONOMIST DASHBOARD — Dark Mode Overrides
-   Native style is light (from-teal-50 via-cyan-50 to-blue-50)
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 {
-  background: linear-gradient(135deg, #0a0f1e 0%, #071519 100%) !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 .bg-white {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 .text-gray-900,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 .text-gray-800,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 h1,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 h2,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 h3,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 h4 {
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 .text-gray-500,
-[data-theme="dark"] .min-h-screen.bg-gradient-to-br.from-teal-50 .text-gray-600 {
-  color: #64748b !important;
-}
-
-[data-theme="dark"] .bg-cyan-50 {
-  background: rgba(6, 182, 212, 0.08) !important;
-  border-color: rgba(6, 182, 212, 0.2) !important;
-}
-
-[data-theme="dark"] .text-cyan-800 {
-  color: #22d3ee !important;
-}
-
-[data-theme="dark"] .text-cyan-900 {
-  color: #a5f3fc !important;
-}
-
-[data-theme="dark"] .bg-gradient-to-br.from-teal-50.to-white {
-  background: rgba(6, 182, 212, 0.07) !important;
-  border-color: rgba(6, 182, 212, 0.2) !important;
-}
-
-[data-theme="dark"] .text-teal-600 {
-  color: #2dd4bf !important;
-}
-
-/* Crop modal inside Agronomist */
-[data-theme="dark"] .bg-gradient-to-br.from-teal-50.to-white.border.border-teal-200 {
-  background: rgba(6, 182, 212, 0.07) !important;
-  border-color: rgba(6, 182, 212, 0.2) !important;
-}
-
-[data-theme="dark"] .bg-teal-100 {
-  background: rgba(6, 182, 212, 0.15) !important;
-}
-
-[data-theme="dark"] .text-teal-700 {
-  color: #2dd4bf !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   ADMIN DASHBOARD & SUB-PAGES — Light Mode Overrides
-   Admin pages are natively dark (from-slate-900 via-gray-900 to-slate-800)
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 {
-  background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%) !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .text-white,
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 h1,
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 h2,
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 h3 {
-  color: #1e1b4b !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .text-gray-400 {
-  color: #6b7280 !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .text-gray-500 {
-  color: #9ca3af !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .text-gray-600 {
-  color: #6b7280 !important;
-}
-
-/* Glass cards inside admin */
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .bg-white\/5,
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .bg-white\/8 {
-  background: #ffffff !important;
-  border-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .border-white\/10,
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .border-white\/20 {
-  border-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .backdrop-blur {
-  background: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Admin banner */
-[data-theme="light"] .bg-gradient-to-r.from-slate-700 {
-  background: linear-gradient(135deg, #4338ca, #7c3aed) !important;
-  border-color: rgba(99, 102, 241, 0.3) !important;
-}
-
-/* Table header in admin */
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 tr.bg-white\/5 {
-  background: #f8fafc !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .divide-white\/5>*+* {
-  border-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 tr:hover {
-  background: #f1f5f9 !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 td {
-  color: #374151 !important;
-}
-
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 th {
-  color: #64748b !important;
-}
-
-/* Admin stat value colors  */
-[data-theme="light"] .text-emerald-600 {
-  color: #059669 !important;
-}
-
-[data-theme="light"] .text-amber-600 {
-  color: #d97706 !important;
-}
-
-[data-theme="light"] .text-blue-600 {
-  color: #2563eb !important;
-}
-
-/* Approval/reject buttons in admin light mode */
-[data-theme="light"] .bg-emerald-500\/20 {
-  background: #d1fae5 !important;
-  border-color: #6ee7b7 !important;
-}
-
-[data-theme="light"] .text-emerald-400 {
-  color: #059669 !important;
-}
-
-[data-theme="light"] .bg-red-500\/20 {
-  background: #fee2e2 !important;
-  border-color: #fca5a5 !important;
-}
-
-[data-theme="light"] .text-red-400 {
-  color: #dc2626 !important;
-}
-
-[data-theme="light"] .bg-amber-500\/20 {
-  background: #fef3c7 !important;
-  border-color: #fde68a !important;
-}
-
-[data-theme="light"] .text-amber-400 {
-  color: #d97706 !important;
-}
-
-[data-theme="light"] .bg-blue-500\/20 {
-  background: #dbeafe !important;
-  border-color: #93c5fd !important;
-}
-
-[data-theme="light"] .text-blue-400 {
-  color: #2563eb !important;
-}
-
-/* Farmers.jsx light mode */
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .text-white.font-bold,
-[data-theme="light"] .min-h-screen.bg-gradient-to-br.from-slate-900 .text-white.font-extrabold {
-  color: #1e1b4b !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   USER PROFILE PAGE — Dark Mode Overrides
-   Profile uses inline CSS classes (profile-container, profile-card, etc.)
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="dark"] .profile-container {
-  background: transparent;
-  color: #f1f5f9;
-}
-
-[data-theme="dark"] .profile-header {
-  color: #a5b4fc !important;
-}
-
-[data-theme="dark"] .profile-card {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-[data-theme="dark"] .tab-navigation {
-  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-[data-theme="dark"] .tab-button {
-  color: #94a3b8 !important;
-}
-
-[data-theme="dark"] .tab-button:hover {
-  background: rgba(255, 255, 255, 0.05) !important;
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .tab-button.active {
-  color: #818cf8 !important;
-  border-bottom-color: #6366f1 !important;
-}
-
-[data-theme="dark"] .tab-content {
-  background: transparent;
-}
-
-[data-theme="dark"] .form-label {
-  color: #94a3b8 !important;
-}
-
-[data-theme="dark"] .form-input,
-[data-theme="dark"] .form-select {
-  background: rgba(99, 102, 241, 0.08) !important;
-  border-color: rgba(99, 102, 241, 0.25) !important;
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .form-input:disabled {
-  background: rgba(255, 255, 255, 0.04) !important;
-  color: #475569 !important;
-}
-
-[data-theme="dark"] .form-input:focus,
-[data-theme="dark"] .form-select:focus {
-  border-color: #6366f1 !important;
-}
-
-[data-theme="dark"] .button-primary {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
-}
-
-[data-theme="dark"] .error-message {
-  background: rgba(239, 68, 68, 0.1) !important;
-  border-color: rgba(239, 68, 68, 0.3) !important;
-  color: #f87171 !important;
-}
-
-/* Language selector buttons in profile */
-[data-theme="dark"] .profile-container button[style] {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #f1f5f9 !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   REGISTER PAGE — Dark Mode Overrides (leaflet map area)
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="dark"] .border-gray-200 {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-[data-theme="dark"] .bg-green-50 {
-  background: rgba(16, 185, 129, 0.08) !important;
-  border-color: rgba(16, 185, 129, 0.2) !important;
-}
-
-[data-theme="dark"] .text-green-800 {
-  color: #34d399 !important;
-}
-
-[data-theme="dark"] .bg-yellow-50 {
-  background: rgba(245, 158, 11, 0.08) !important;
-  border-color: rgba(245, 158, 11, 0.2) !important;
-}
-
-[data-theme="dark"] .text-yellow-800 {
-  color: #fbbf24 !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   CROPS PAGE (farmer/Crops.jsx) — Theme Support
-   This page already uses kk- utility classes so mostly automatic.
-   Add extra fixes for any inline hardcoded styles below.
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="light"] .kk-page {
-  background-color: var(--bg-page);
-}
-
-[data-theme="dark"] .text-gray-900 {
-  color: #f1f5f9;
-}
-
-[data-theme="dark"] .text-gray-800 {
-  color: #e2e8f0;
-}
-
-[data-theme="dark"] .text-gray-700 {
-  color: #cbd5e1;
-}
-
-[data-theme="dark"] .text-gray-600 {
-  color: #94a3b8;
-}
-
-[data-theme="dark"] .text-gray-500 {
-  color: #64748b;
-}
-
-/* Modals / dialogs — dark mode background */
-[data-theme="dark"] .bg-white.rounded-3xl,
-[data-theme="dark"] .bg-white.rounded-2xl,
-[data-theme="dark"] .bg-white.rounded-xl {
-  background: #0f172a !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-[data-theme="dark"] .bg-white.rounded-3xl h3,
-[data-theme="dark"] .bg-white.rounded-2xl h3,
-[data-theme="dark"] .bg-white.rounded-xl h3 {
-  color: #f1f5f9 !important;
-}
-
-[data-theme="dark"] .border-b {
-  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-[data-theme="dark"] .border-b button {
-  color: #94a3b8 !important;
-}
-
-/* Keep gradient headers inside modals intact */
-[data-theme="dark"] [class*="bg-gradient-to-r"].from-emerald-600,
-[data-theme="dark"] [class*="bg-gradient-to-r"].from-teal-600,
-[data-theme="dark"] [class*="bg-gradient-to-r"].from-slate-800 {
-  background: unset;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   SKELETAL / PLACEHOLDER — Dark overrides
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="dark"] .bg-gradient-to-r.from-gray-100 {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 75%) !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   MARKET PAGE & WEATHER PAGE — already handled by named CSS classes
-   (market-page-root, etc.) — extend below as needed
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="light"] .market-trend-card,
-[data-theme="light"] [class*="market-"] {
-  color: #1e1b4b;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   UNAUTHORIZED PAGE
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="dark"] .text-red-600 {
-  color: #f87171 !important;
-}
-
-[data-theme="dark"] .text-green-600 {
-  color: #34d399 !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   GENERAL LIGHT-MODE: Keep Tailwind gray utility readable
-══════════════════════════════════════════════════════════════════════════ */
-[data-theme="light"] .text-white {
-  color: #1e1b4b;
-}
-
-/* Restore white text inside colored gradient banners/buttons */
-[data-theme="light"] [class*="bg-gradient-to-r"] .text-white,
-[data-theme="light"] [class*="bg-gradient-to-br"] .text-white,
-[data-theme="light"] [class*="from-emerald-"] .text-white,
-[data-theme="light"] [class*="from-teal-"] .text-white,
-[data-theme="light"] [class*="from-slate-"] .text-white,
-[data-theme="light"] [class*="from-blue-"] .text-white,
-[data-theme="light"] [class*="from-violet-"] .text-white,
-[data-theme="light"] [class*="from-orange-"] .text-white,
-[data-theme="light"] [class*="from-rose-"] .text-white,
-[data-theme="light"] [class*="from-indigo-"] .text-white,
-[data-theme="light"] [class*="from-green-"] .text-white,
-[data-theme="light"] [class*="from-cyan-"] .text-white {
-  color: #ffffff !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   CHATBOT WINDOW — Isolated from all theme overrides
-   The .kk-window has its own fixed light lavender theme and must NEVER
-   inherit dark-mode color/background overrides from global rules.
-══════════════════════════════════════════════════════════════════════════ */
-
-/* Lock the chatbot window background */
 .kk-window,
 [data-theme="dark"] .kk-window,
 [data-theme="light"] .kk-window {
-  background: linear-gradient(160deg, #faf5ff 0%, #eef2ff 100%) !important;
-  color: #1e1b4b !important;
+  background: linear-gradient(160deg, #F8FAF8 0%, #EAF5EA 100%) !important;
+  color: #2F3E2F !important;
 }
 
-/* Input bar at the bottom */
 .kk-window .border-t.bg-white,
 [data-theme="dark"] .kk-window .border-t.bg-white {
   background: #ffffff !important;
-  border-color: #ede9fe !important;
+  border-color: #D3EBD3 !important;
 }
 
-/* The textarea itself */
 .kk-window textarea,
 [data-theme="dark"] .kk-window textarea {
-  background: #f9fafb !important;
-  color: #1e293b !important;
-  border-color: #e5e7eb !important;
+  background: #F8FAF8 !important;
+  color: #2F3E2F !important;
+  border-color: #D3EBD3 !important;
 }
 
 .kk-window textarea::placeholder,
 [data-theme="dark"] .kk-window textarea::placeholder {
-  color: #9ca3af !important;
+  color: #5A965A !important;
 }
 
-/* Message bubbles — assistant */
 .kk-window .bg-white.border.border-violet-100,
 [data-theme="dark"] .kk-window .bg-white.border.border-violet-100 {
   background: #ffffff !important;
-  color: #1f2937 !important;
-  border-color: #ede9fe !important;
+  color: #2F3E2F !important;
+  border-color: #D3EBD3 !important;
 }
 
-/* Context pill backgrounds */
 .kk-window .bg-violet-50,
-[data-theme="dark"] .kk-window .bg-violet-50 {
-  background: #f5f3ff !important;
-}
-
+[data-theme="dark"] .kk-window .bg-violet-50,
 .kk-window .bg-amber-50,
 [data-theme="dark"] .kk-window .bg-amber-50 {
-  background: #fffbeb !important;
+  background: #EAF5EA !important;
 }
 
-/* Quick question chip buttons */
 .kk-window button.bg-white,
 [data-theme="dark"] .kk-window button.bg-white {
   background: #ffffff !important;
-  color: #6d28d9 !important;
+  color: #467646 !important;
 }
 
-/* Typing indicator dots container */
 .kk-window .bg-white.border-violet-100,
 [data-theme="dark"] .kk-window .bg-white.border-violet-100 {
   background: #ffffff !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   GLOBAL TEXT COLOR SAFETY OVERRIDES
+   Forces all hardcoded white/gray text to be readable on the new light Green backgrounds.
+══════════════════════════════════════════════════════════════════════════ */
+.text-white,
+.text-gray-50,
+.text-gray-100,
+.text-gray-200,
+.text-gray-300,
+.text-gray-400,
+.text-slate-50,
+.text-slate-100,
+.text-slate-200,
+.text-slate-300,
+.text-slate-400 {
+  color: #2F3E2F !important;
+}
+
+/* Protect text colors inside primary buttons or elements that still have solid background colors */
+.bg-emerald-500 .text-white,
+.bg-teal-600 .text-white,
+.bg-blue-600 .text-white,
+.kk-btn-primary, 
+.kk-btn-primary .text-white,
+button[class*="bg-emerald"] .text-white,
+button[class*="bg-teal"] .text-white,
+[class*="bg-gradient"] > .text-white {
+  color: #FFFFFF !important;
 }

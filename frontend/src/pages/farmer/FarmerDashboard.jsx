@@ -309,9 +309,9 @@ const FarmerDashboard = () => {
                   AI Farm Intelligence Engine Active
                 </div>
 
-                <p className="text-emerald-300 text-sm font-semibold mb-1 flex items-center gap-2">
-                  <GreetIcon size={18} className="text-yellow-400" /> {greeting}
-                </p>
+                <p className="text-sm font-bold opacity-90 mt-1 flex items-center gap-2">
+              <MessageSquare size={14} /> {t('Check your expert and equipment messages in the sidebar')}
+            </p>
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-2 leading-tight">
                   {user?.fullName?.split(' ')[0]}
                 </h1>
@@ -718,6 +718,7 @@ const FarmerDashboard = () => {
       {selectedChatAgronomist && (
         <ExpertChatRoom
           otherUserId={selectedChatAgronomist}
+          category="expert"
           onClose={() => setSelectedChatAgronomist(null)}
         />
       )}

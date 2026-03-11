@@ -339,9 +339,10 @@ const AgronomistDashboard = () => {
       {selectedChatFarmer && (
         <ExpertChatRoom
           otherUserId={selectedChatFarmer}
+          category="expert"
           onClose={() => {
             setSelectedChatFarmer(null);
-            fetchActiveChats();
+            fetchActiveChats?.();
           }}
         />
       )}

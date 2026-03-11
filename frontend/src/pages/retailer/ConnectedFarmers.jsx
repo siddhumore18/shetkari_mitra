@@ -185,8 +185,11 @@ const ConnectedFarmers = () => {
             {/* Embedded Chat Modal */}
             {selectedChatUser && (
                 <ExpertChatRoom
-                    otherUserId={selectedChatUser}
-                    onClose={() => setSelectedChatUser(null)}
+                    otherUserId={selectedChatUser?._id}
+                    category="retailer"
+                    onClose={() => {
+                        setSelectedChatUser(null);
+                    }}
                 />
             )}
         </div>

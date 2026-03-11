@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import mongoose from 'mongoose';
 import ExpertChat from '../models/expertChat.model.js';
 import User from '../models/user.model.js';
 
@@ -8,25 +9,16 @@ import User from '../models/user.model.js';
  * @access  Private
  */
 export const initChat = asyncHandler(async (req, res) => {
-    const { otherUserId } = req.body;
+    const { otherUserId, category = 'expert' } = req.body;
     const currentUserId = req.user.id;
-    const currentUserRole = req.user.role;
 
     if (!otherUserId) {
         return res.status(400).json({ success: false, message: "Target User ID is required." });
     }
 
-    // Determine who is who
-    let farmerId, agronomistId; // Also used for retailer ID in this context
-
-    if (currentUserRole === 'farmer') {
-        farmerId = currentUserId;
-        agronomistId = otherUserId;
-    } else if (currentUserRole === 'agronomist' || currentUserRole === 'retailer') {
-        agronomistId = currentUserId;
-        farmerId = otherUserId;
-    } else {
-        return res.status(403).json({ success: false, message: "Only farmers, agronomists, or retailers can initiate expert chats." });
+    // Validate both IDs are valid ObjectIds before querying
+    if (!mongoose.Types.ObjectId.isValid(otherUserId) || !mongoose.Types.ObjectId.isValid(currentUserId)) {
+        return res.status(400).json({ success: false, message: "Invalid user ID format." });
     }
 
     // Check if both users exist
@@ -35,28 +27,41 @@ export const initChat = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, message: "Recipient user not found." });
     }
 
-    // Ensure the other user has the opposite role
-    const expectedRoles = currentUserRole === 'farmer' ? ['agronomist', 'retailer'] : ['farmer'];
-    if (!expectedRoles.includes(otherUser.role)) {
-        return res.status(400).json({ success: false, message: `Target user must be one of: ${expectedRoles.join(', ')}.` });
+    // Simplified role check: Ensure both users have valid roles
+    const allowedRoles = ['farmer', 'agronomist', 'retailer'];
+    if (!allowedRoles.includes(req.user.role) || !allowedRoles.includes(otherUser.role)) {
+        return res.status(403).json({ success: false, message: "Role not authorized for expert/business chat." });
     }
 
-    let chat = await ExpertChat.findOne({ farmerId, agronomistId })
-        .populate('farmerId', 'fullName profilePhoto')
-        .populate('agronomistId', 'fullName profilePhoto');
+    // ID Normalization: sort as strings so A-B and B-A always produce the same pair
+    // Cast to ObjectId so Mongoose's compound index query matches correctly
+    const idStrings = [currentUserId.toString(), otherUserId.toString()].sort();
+    const farmerId = new mongoose.Types.ObjectId(idStrings[0]);
+    const agronomistId = new mongoose.Types.ObjectId(idStrings[1]);
 
-    if (!chat) {
-        chat = await ExpertChat.create({
-            farmerId,
-            agronomistId,
-            messages: []
-        });
-        await chat.populate('farmerId', 'fullName profilePhoto');
-        await chat.populate('agronomistId', 'fullName profilePhoto');
+    try {
+        // Atomic upsert — avoids E11000 duplicate key errors from the unique compound index.
+        // findOneAndUpdate with ObjectId fields ensures the query matches the stored documents.
+        let chat = await ExpertChat.findOneAndUpdate(
+            { farmerId, agronomistId, category },
+            { $setOnInsert: { farmerId, agronomistId, category, messages: [] } },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        )
+            .populate('farmerId', 'fullName profilePhoto')
+            .populate('agronomistId', 'fullName profilePhoto');
+
+        res.status(200).json({ success: true, data: chat });
+    } catch (err) {
+        console.error(`[initChat ERROR] category: ${category}, pair: ${farmerId}-${agronomistId}`);
+        console.error(`  Error name: ${err.name}`);
+        console.error(`  Error code: ${err.code}`);
+        console.error(`  Error message: ${err.message}`);
+        if (err.keyValue) console.error(`  Key value:`, JSON.stringify(err.keyValue));
+        res.status(500).json({ success: false, message: `Chat Init Failed: ${err.name} - ${err.message}` });
     }
-
-    res.status(200).json({ success: true, data: chat });
 });
+
+
 
 /**
  * @desc    Send a message in an expert chat
@@ -141,14 +146,24 @@ export const getChatHistory = asyncHandler(async (req, res) => {
 export const getMyChats = asyncHandler(async (req, res) => {
     const userId = req.user.id;
     const role = req.user.role;
+    const { category } = req.query;
 
-    let query = {};
-    if (role === 'farmer') {
-        query = { farmerId: userId };
-    } else if (role === 'agronomist') {
-        query = { agronomistId: userId };
-    } else {
-        return res.status(403).json({ success: false, message: "Role not authorized for expert chats." });
+    console.log(`[getMyChats] User: ${userId}, Role: ${role}, Category: ${category}`);
+    if (!['farmer', 'agronomist', 'retailer'].includes(role)) {
+        console.warn(`[getMyChats] Forbidden role: ${role}`);
+        return res.status(403).json({ success: false, message: "Role not authorized for expert/business chat." });
+    }
+
+    // For robustness, especially with Retailer-Retailer chats, check both slots
+    let query = {
+        $or: [
+            { farmerId: userId },
+            { agronomistId: userId }
+        ]
+    };
+
+    if (category) {
+        query.category = category;
     }
 
     const chats = await ExpertChat.find(query)
@@ -156,5 +171,6 @@ export const getMyChats = asyncHandler(async (req, res) => {
         .populate('agronomistId', 'fullName profilePhoto mobileNumber')
         .sort({ lastMessageAt: -1 });
 
+    console.log(`[getMyChats] Found ${chats.length} chats`);
     res.status(200).json({ success: true, data: chats });
 });

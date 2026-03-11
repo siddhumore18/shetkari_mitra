@@ -29,6 +29,7 @@ const NAV_CONFIG = {
         { path: '/farmer/connected-retailers', label: 'Connected Retailers', icon: Users },
         { path: '/farmer/equipment', label: 'Equipment Market', icon: Tractor },
         { path: '/farmer/supply-chain', label: 'Supply Chain', icon: Truck },
+        { path: '/messages', label: 'Messages', icon: MessageSquare },
     ],
     admin: [
         { path: '/admin', label: 'Dashboard', icon: Home },
@@ -37,10 +38,12 @@ const NAV_CONFIG = {
         { path: '/admin/facilities', label: 'Facilities', icon: Settings },
         { path: '/admin/seeds', label: 'Seeds', icon: Sprout },
         { path: '/admin/fertilizers', label: 'Fertilizers', icon: ClipboardList },
+        { path: '/messages', label: 'Messages', icon: MessageSquare },
     ],
     agronomist: [
         { path: '/agronomist', label: 'Dashboard', icon: Home },
         { path: '/agronomist/profile', label: 'Profile Settings', icon: UserCircle },
+        { path: '/messages', label: 'Messages', icon: MessageSquare },
     ],
     retailer: [
         { path: '/retailer', label: 'Dashboard', icon: Home },
@@ -49,6 +52,7 @@ const NAV_CONFIG = {
         { path: '/retailer/weather', label: 'Weather Updates', icon: CloudSun },
         { path: '/retailer/market', label: 'Market Trends', icon: BarChart3 },
         { path: '/retailer/supply-chain', label: 'Supply Chain', icon: Truck },
+        { path: '/messages', label: 'Messages', icon: MessageSquare },
     ],
 };
 
@@ -163,19 +167,40 @@ const LanguageSwitcher = ({ collapsed }) => {
 };
 
 // ── Recommended Scheme (Farmer Only) ──────────────────────────────────────
+const SCHEME_CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+
 const RecommendedScheme = ({ onClose }) => {
     const { lang, t } = useLanguage();
     const [scheme, setScheme] = useState(null);
 
     useEffect(() => {
-        const fetch = async () => {
+        let cancelled = false;
+        const cacheKey = `sidebar_scheme_${lang}`;
+
+        const loadScheme = async () => {
+            // Check localStorage cache first
+            try {
+                const cached = JSON.parse(localStorage.getItem(cacheKey));
+                if (cached && Date.now() - cached.ts < SCHEME_CACHE_TTL && cached.scheme) {
+                    if (!cancelled) setScheme(cached.scheme);
+                    return; // serve from cache, no API call needed
+                }
+            } catch { }
+
+            // Fetch fresh
             try {
                 const { schemeAPI } = await import('../services/api');
                 const res = await schemeAPI.getRecommendations(lang);
-                if (res.data.recommendations?.length > 0) setScheme(res.data.recommendations[0]);
+                const first = res.data.recommendations?.[0];
+                if (first && !cancelled) {
+                    setScheme(first);
+                    localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), scheme: first }));
+                }
             } catch { }
         };
-        fetch();
+
+        loadScheme();
+        return () => { cancelled = true; };
     }, [lang]);
 
     if (!scheme) return null;

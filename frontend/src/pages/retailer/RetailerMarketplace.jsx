@@ -12,7 +12,9 @@ import {
     ChevronRight,
     ArrowLeft,
     Loader2,
-    Clock
+    Clock,
+    Users,
+    X
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supplyChainAPI } from '../../services/api';
@@ -40,14 +42,12 @@ const RetailerMarketplace = () => {
         const fetchAllListings = async () => {
             try {
                 setLoading(true);
-                // Search with a large radius to act as a global feed, or just get nearby
                 const lat = user?.location?.coordinates?.[1] || 16.7050;
                 const lng = user?.location?.coordinates?.[0] || 74.2433;
 
-                const res = await supplyChainAPI.getNearbyListings(lat, lng, 1000); // 1000km for "all" feed
+                const res = await supplyChainAPI.getNearbyListings(lat, lng, 1000);
                 setListings(res.data?.data || []);
 
-                // Fetch collaborations to identify connections
                 const collabRes = await supplyChainAPI.getMyCollaborations();
                 const collabs = collabRes.data?.data || { chats: [], sent: [] };
 
@@ -140,7 +140,7 @@ const RetailerMarketplace = () => {
                 </button>
 
                 {/* Header & Search */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="flex flex-col md:grid-cols-2 md:items-end justify-between gap-6">
                     <div className="flex-1">
                         <h1 className={`text-4xl font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('Farmer Marketplace')}</h1>
                         <p className={`mt-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{t('Direct access to all active farmer listings across India.')}</p>
@@ -209,12 +209,12 @@ const RetailerMarketplace = () => {
                                     onClick={() => setSelectedListing(null)}
                                     className="absolute top-6 right-6 p-3 rounded-full bg-black/40 text-white hover:bg-black/60 backdrop-blur-md transition-all"
                                 >
-                                    <MessageSquare size={20} className="rotate-45" />
+                                    <X size={20} />
                                 </button>
                                 <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
                                     <h2 className="text-4xl font-extrabold text-white">{selectedListing.cropType}</h2>
                                     <p className="text-blue-300 font-bold flex items-center gap-2 mt-1">
-                                        <Store size={16} /> {selectedListing.farmerId?.fullName} • {t('Verified Farmer')}
+                                        <Users size={16} /> {selectedListing.farmerId?.fullName} • {t('Verified Farmer')}
                                     </p>
                                 </div>
                             </div>
@@ -292,8 +292,11 @@ const RetailerMarketplace = () => {
                 {/* Embedded Chat Modal */}
                 {selectedChatUser && (
                     <ExpertChatRoom
-                        otherUserId={selectedChatUser}
-                        onClose={() => setSelectedChatUser(null)}
+                        otherUserId={selectedChatUser._id || selectedChatUser}
+                        category="retailer"
+                        onClose={() => {
+                            setSelectedChatUser(null);
+                        }}
                     />
                 )}
             </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { equipmentAPI } from '../../services/api';
+import { equipmentAPI, expertChatAPI } from '../../services/api';
 import {
     Tractor,
     MapPin,
@@ -14,7 +14,8 @@ import {
     XCircle,
     PackageSearch,
     Loader2,
-    Tag
+    Tag,
+    ChevronRight
 } from 'lucide-react';
 import ExpertChatRoom from '../../components/ExpertChatRoom';
 
@@ -26,6 +27,7 @@ const EquipmentMarketplace = () => {
     const [activeTab, setActiveTab] = useState('discover'); // 'discover', 'my-listings', 'post'
     const [nearbyEquipment, setNearbyEquipment] = useState([]);
     const [myListings, setMyListings] = useState([]);
+    const [myChats, setMyChats] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -55,8 +57,23 @@ const EquipmentMarketplace = () => {
             fetchNearby();
         } else if (activeTab === 'my-listings') {
             fetchMyListings();
+        } else if (activeTab === 'chats') {
+            fetchMyChats();
         }
     }, [activeTab, filterType, filterRadius]);
+
+    const fetchMyChats = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const res = await expertChatAPI.getMyChats();
+            setMyChats(res.data.data);
+        } catch (err) {
+            setError(err.response?.data?.message || t('Failed to load chats'));
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchNearby = async () => {
         try {
@@ -137,6 +154,7 @@ const EquipmentMarketplace = () => {
                 <div className="flex flex-wrap gap-2 sm:gap-4 border-b border-transparent">
                     {[
                         { id: 'discover', label: t('Discover Nearby'), icon: Search },
+                        { id: 'chats', label: t('Recent Inquiries'), icon: MessageCircle },
                         { id: 'my-listings', label: t('My Listings'), icon: PackageSearch },
                         { id: 'post', label: t('Post Equipment'), icon: Plus }
                     ].map(tab => (
@@ -164,6 +182,55 @@ const EquipmentMarketplace = () => {
 
                 {/* Content Area */}
                 <div className="mt-4">
+
+                    {/* CHATS TAB */}
+                    {activeTab === 'chats' && (
+                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            {loading ? (
+                                <div className="flex justify-center p-12"><Loader2 className="animate-spin text-amber-500" size={40} /></div>
+                            ) : myChats.length === 0 ? (
+                                <div className={`p-12 text-center rounded-2xl border border-dashed ${isDark ? 'border-zinc-700' : 'border-slate-300'}`}>
+                                    <MessageCircle size={48} className={`mx-auto mb-4 opacity-20 ${textColor}`} />
+                                    <h3 className="text-xl font-bold mb-2">{t('No messages yet')}</h3>
+                                    <p className={subTextColor}>{t('Inquiries from other farmers will appear here.')}</p>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {myChats.map(chat => {
+                                        const currentUserId = user?._id || user?.id;
+                                        const farmerIdStr = chat.farmerId?._id?.toString() || chat.farmerId?.toString();
+                                        const other = farmerIdStr === currentUserId?.toString() ? chat.agronomistId : chat.farmerId;
+                                        if (!other) return null;
+                                        return (
+                                            <div 
+                                                key={chat._id} 
+                                                onClick={() => setSelectedChatUser(other._id || other)}
+                                                className={`p-5 rounded-2xl border ${cardBg} shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center gap-4 group`}
+                                            >
+                                                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center font-bold text-xl shadow-inner shrink-0">
+                                                    {other.fullName?.charAt(0)}
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex justify-between items-baseline mb-1">
+                                                        <h3 className="font-extrabold truncate group-hover:text-amber-500 transition-colors">{other.fullName}</h3>
+                                                        <span className={`text-[10px] font-bold ${subTextColor}`}>
+                                                            {new Date(chat.lastMessageAt).toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                    <p className={`text-sm ${subTextColor} truncate`}>
+                                                        {chat.messages?.[chat.messages.length - 1]?.text || t('Click to start chatting')}
+                                                    </p>
+                                                </div>
+                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-slate-400 group-hover:bg-amber-100 group-hover:text-amber-600 transition-colors">
+                                                    <ChevronRight size={18} />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     {/* DISCOVER TAB */}
                     {activeTab === 'discover' && (
@@ -193,6 +260,10 @@ const EquipmentMarketplace = () => {
                                         <option value={30}>{t('Within 30 km')}</option>
                                         <option value={50}>{t('Within 50 km')}</option>
                                         <option value={100}>{t('Within 100 km')}</option>
+                                        <option value={200}>{t('Within 200 km')}</option>
+                                        <option value={500}>{t('Within 500 km')}</option>
+                                        <option value={1000}>{t('Within 1000 km')}</option>
+                                        <option value={5000}>{t('Global (5000 km)')}</option>
                                     </select>
                                 </div>
                             </div>
@@ -240,7 +311,7 @@ const EquipmentMarketplace = () => {
                                                     </div>
 
                                                     {/* Owner details & Contact */}
-                                                    {item.owner && item.owner._id !== user?.id && (
+                                                    {item.owner && item.owner._id !== (user?._id || user?.id) && (
                                                         <div className="pt-4 border-t border-dashed border-slate-200 dark:border-zinc-800">
                                                             <div className="flex items-center gap-3 mb-3">
                                                                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
@@ -253,7 +324,7 @@ const EquipmentMarketplace = () => {
                                                             </div>
                                                             <div className="grid grid-cols-2 gap-2">
                                                                 <button
-                                                                    onClick={() => setSelectedChatUser(item.owner._id)}
+                                                                    onClick={() => setSelectedChatUser(item.owner._id || item.owner.id)}
                                                                     className="flex items-center justify-center gap-2 py-2.5 rounded-xl font-bold text-sm bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 hover:bg-emerald-100 transition-colors"
                                                                 >
                                                                     <MessageCircle size={16} /> {t('Chat')}
@@ -438,7 +509,11 @@ const EquipmentMarketplace = () => {
             {selectedChatUser && (
                 <ExpertChatRoom
                     otherUserId={selectedChatUser}
-                    onClose={() => setSelectedChatUser(null)}
+                    category="equipment"
+                    onClose={() => {
+                        setSelectedChatUser(null);
+                        fetchMyChats();
+                    }}
                 />
             )}
         </div>

@@ -43,7 +43,7 @@ const callGemini = async (params) => {
   const geminiClient = createGeminiClient();
   if (!geminiClient) throw new Error("Gemini API key not configured.");
 
-  const model = geminiClient.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = geminiClient.getGenerativeModel({ model: "gemini-2.0-flash" });
 
   // Merge system prompt + user messages into a single prompt string
   const systemMsg = params.messages.find((m) => m.role === "system");

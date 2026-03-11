@@ -15,7 +15,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 
-const ExpertChatRoom = ({ otherUserId, onClose }) => {
+const ExpertChatRoom = ({ otherUserId, category = 'expert', onClose }) => {
     const { user } = useAuth();
     const { t } = useLanguage();
     const { isDark } = useTheme();
@@ -37,7 +37,7 @@ const ExpertChatRoom = ({ otherUserId, onClose }) => {
         const initChat = async () => {
             try {
                 setLoading(true);
-                const res = await expertChatAPI.initChat(otherUserId);
+                const res = await expertChatAPI.initChat(otherUserId, category);
                 const chatData = res.data.data;
                 setChat(chatData);
 
@@ -53,7 +53,7 @@ const ExpertChatRoom = ({ otherUserId, onClose }) => {
         };
 
         if (otherUserId) initChat();
-    }, [otherUserId, t]);
+    }, [otherUserId, category, t]);
 
     // Socket: Listen for new messages
     useEffect(() => {
@@ -140,7 +140,21 @@ const ExpertChatRoom = ({ otherUserId, onClose }) => {
         );
     }
 
-    const otherUser = user.role === 'farmer' ? chat.agronomistId : chat.farmerId;
+    const getUserIdStr = (obj) => {
+        if (!obj) return '';
+        if (typeof obj === 'string') return obj;
+        return (obj._id || obj.id || obj).toString();
+    };
+
+    const getOtherUser = () => {
+        if (!chat || !user) return null;
+        const currentUserId = getUserIdStr(user);
+        const farmerIdStr = getUserIdStr(chat.farmerId);
+        return farmerIdStr === currentUserId ? chat.agronomistId : chat.farmerId;
+    };
+
+    const otherUser = getOtherUser();
+    if (!otherUser) return null;
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
@@ -162,7 +176,11 @@ const ExpertChatRoom = ({ otherUserId, onClose }) => {
                         <div className="cursor-pointer">
                             <h3 className="font-extrabold text-lg leading-tight truncate max-w-[150px]">{otherUser.fullName}</h3>
                             <p className="text-[11px] text-[#25d366] font-medium leading-tight">
-                                {user.role === 'farmer' ? t('Expert Agronomist') : t('Farmer Instance')}
+                                {category === 'equipment'
+                                ? (user.role === 'farmer' ? t('Equipment Owner') : t('Farmer'))
+                                : category === 'retailer'
+                                    ? t('Retailer')
+                                    : (user.role === 'farmer' ? t('Expert Agronomist') : t('Farmer'))}
                             </p>
                         </div>
                     </div>

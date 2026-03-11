@@ -193,7 +193,10 @@ const ConnectedRetailers = () => {
             {selectedChatUser && (
                 <ExpertChatRoom
                     otherUserId={selectedChatUser}
-                    onClose={() => setSelectedChatUser(null)}
+                    category="retailer"
+                    onClose={() => {
+                        setSelectedChatUser(null);
+                    }}
                 />
             )}
         </div>

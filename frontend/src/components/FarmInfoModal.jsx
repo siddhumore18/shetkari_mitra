@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sprout, Ruler, Droplets, Leaf, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Camera, MapPin } from 'lucide-react';
+import { Sprout, Ruler, Droplets, Leaf, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Camera, MapPin, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { userAPI } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
@@ -31,7 +31,9 @@ const FarmInfoModal = () => {
     useEffect(() => {
         if (user && user.role === 'farmer') {
             const hasInfo = user.farmInfo && user.farmInfo.totalArea && user.farmInfo.totalArea.value;
-            if (!hasInfo) {
+            const isDismissed = sessionStorage.getItem('farm_info_modal_dismissed');
+            
+            if (!hasInfo && !isDismissed) {
                 // Short delay to avoid popping up too fast
                 const timer = setTimeout(() => setIsOpen(true), 1500);
                 return () => clearTimeout(timer);
@@ -99,6 +101,11 @@ const FarmInfoModal = () => {
         }
     };
 
+    const handleClose = () => {
+        setIsOpen(false);
+        sessionStorage.setItem('farm_info_modal_dismissed', 'true');
+    };
+
     if (!isOpen) return null;
 
     const commonCrops = ['Wheat', 'Rice', 'Sugarcane', 'Cotton', 'Soybean', 'Maize', 'Tomato', 'Onion', 'Potato'];
@@ -109,8 +116,15 @@ const FarmInfoModal = () => {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    className="bg-white dark:bg-[#111827] w-full max-w-2xl rounded-[32px] overflow-hidden shadow-2xl border border-emerald-100 dark:border-white/10"
+                    className="bg-white dark:bg-[#111827] w-full max-w-2xl rounded-[32px] overflow-hidden shadow-2xl border border-emerald-100 dark:border-white/10 relative"
                 >
+                    {/* Close Button */}
+                    <button 
+                        onClick={handleClose}
+                        className="absolute top-6 right-6 z-20 p-2 bg-black/20 hover:bg-black/40 text-white rounded-full transition-all"
+                    >
+                        <X size={20} />
+                    </button>
                     {/* Header */}
                     <div className="bg-gradient-to-r from-emerald-600 to-green-700 p-8 text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16" />

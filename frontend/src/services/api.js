@@ -23,6 +23,10 @@ api.interceptors.request.use(
   }
 );
 
+// Singleton refresh promise — prevents multiple simultaneous token refreshes
+// when several requests fail with 401 at the same time (race condition).
+let refreshPromise = null;
+
 // Response interceptor to handle token refresh
 api.interceptors.response.use(
   (response) => response,
@@ -30,13 +34,11 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // Only handle 401 (Unauthorized) errors, not 403 (Forbidden)
-    // 403 errors should be handled by the component, not cause logout
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const refreshToken = localStorage.getItem('refreshToken');
       if (!refreshToken) {
-        // No refresh token available, must logout
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('user');
@@ -45,15 +47,25 @@ api.interceptors.response.use(
       }
 
       try {
-        const response = await axios.post(`${API_URL}/api/v1/auth/refresh-token`, {
-          refreshToken,
-        });
-        const { accessToken } = response.data;
-        localStorage.setItem('accessToken', accessToken);
+        // Reuse an in-flight refresh instead of firing a new one
+        if (!refreshPromise) {
+          refreshPromise = axios
+            .post(`${API_URL}/api/v1/auth/refresh-token`, { refreshToken })
+            .then((r) => {
+              const { accessToken } = r.data;
+              localStorage.setItem('accessToken', accessToken);
+              return accessToken;
+            })
+            .finally(() => {
+              refreshPromise = null; // clear so future 401s can refresh again
+            });
+        }
+
+        const accessToken = await refreshPromise;
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        // Only logout if refresh truly fails
+        refreshPromise = null;
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('user');
@@ -269,8 +281,8 @@ export const schemeAPI = {
 
 // Expert Chat APIs
 export const expertChatAPI = {
-  initChat: (otherUserId) => api.post('/expert-chat/init', { otherUserId }),
-  getMyChats: () => api.get('/expert-chat/my-chats'),
+  initChat: (otherUserId, category = 'expert') => api.post('/expert-chat/init', { otherUserId, category }),
+  getMyChats: (category) => api.get('/expert-chat/my-chats', { params: { category } }),
   getChatHistory: (chatId) => api.get(`/expert-chat/${chatId}`),
   sendMessage: (chatId, text) => api.post(`/expert-chat/${chatId}/message`, { text }),
 };

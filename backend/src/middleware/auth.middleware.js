@@ -9,9 +9,13 @@ export const protect = asyncHandler(async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     req.user = await User.findById(decoded.userId);
-    if (!req.user) throw new Error('User not found');
+    if (!req.user) {
+        console.warn(`[AUTH] User not found for ID: ${decoded.userId}`);
+        return res.status(401).json({ message: 'User no longer exists' });
+    }
     next();
   } catch (err) {
+    console.error(`[AUTH ERROR] ${err.message}`);
     res.status(401).json({ message: 'Invalid token' });
   }
 });

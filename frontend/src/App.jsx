@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Menu, MessageSquare } from 'lucide-react';
 import ProtectedRoute from './components/ProtectedRoute';
 import AppSidebar from './components/AppSidebar';
+import AppHeader from './components/AppHeader';
 import AIChatbot from './components/AIChatbot';
 import FarmInfoModal from './components/FarmInfoModal';
 import ChatDrawer from './components/ChatDrawer';
@@ -68,7 +69,7 @@ const PublicTopBar = () => {
 
 // ── Authenticated App Shell (sidebar + content) ────────────────────────────
 const AuthenticatedShell = ({ children }) => {
-  const { collapsed, setMobileOpen } = useSidebar();
+  const { collapsed, toggle, mobileOpen, setMobileOpen } = useSidebar();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { user } = useAuth();
 
@@ -77,10 +78,15 @@ const AuthenticatedShell = ({ children }) => {
       <AppSidebar />
 
       <div className={cn(
-        'flex-1 flex flex-col min-h-screen transition-[margin] duration-300 ease-in-out',
+        'flex-1 flex flex-col min-h-screen transition-[margin] duration-300 ease-in-out pt-16',
         'lg:ml-64',
         collapsed && 'lg:ml-16'
       )}>
+        {/* Desktop Header - Fixed at top */}
+        <div className="hidden lg:block">
+          <AppHeader onChatToggle={() => setIsChatOpen(true)} />
+        </div>
+
         {/* Mobile top bar */}
         <div className="sticky top-0 z-20 flex items-center justify-between h-14 px-4 border-b border-sidebar-border bg-sidebar/80 backdrop-blur-md lg:hidden">
           <button onClick={() => setMobileOpen(true)} className="p-2 rounded-lg hover:bg-sidebar-accent text-sidebar-foreground">
@@ -90,27 +96,7 @@ const AuthenticatedShell = ({ children }) => {
             <span className="text-xl">🌾</span>
             <span className="font-black text-sm text-sidebar-foreground">Krishi Kavach</span>
           </div>
-          {user && (
-            <button onClick={() => setIsChatOpen(true)} className="p-2 rounded-lg bg-emerald-600/10 text-emerald-500 hover:bg-emerald-600 hover:text-white transition-colors relative">
-              <MessageSquare size={18} />
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full" />
-            </button>
-          )}
         </div>
-
-        {/* Desktop chat button */}
-        {user && (
-          <div className="hidden lg:flex fixed top-3 right-4 z-30">
-            <button
-              onClick={() => setIsChatOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-sidebar/80 backdrop-blur-md border border-sidebar-border text-sidebar-foreground hover:bg-emerald-600 hover:text-white transition-all text-sm font-medium relative"
-            >
-              <MessageSquare size={16} />
-              <span className="hidden xl:inline">Chat</span>
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full" />
-            </button>
-          </div>
-        )}
 
         <main className="flex-1">{children}</main>
       </div>

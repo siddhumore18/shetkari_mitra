@@ -4,17 +4,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Home, Sprout, ClipboardList, CloudSun, BarChart3, Users, Microscope,
     UserCircle, LogOut, Truck, ChevronRight, ChevronLeft, Menu,
-    Sun, Moon, Globe, MessageSquare, Settings, ShieldCheck, X, PanelLeft, Store, Tractor
+    Sun, Moon, Globe, MessageSquare, Settings, ShieldCheck, X, Store, Tractor
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
 import { useSidebar } from '../context/SidebarContext';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from './ui/tooltip';
 import { ScrollArea } from './ui/scroll-area';
+import ProfileDropdown from './ProfileDropdown';
 import { cn } from '../lib/utils';
 
 // ── Nav config per role ────────────────────────────────────────────────────
@@ -197,7 +197,6 @@ const AppSidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { t } = useLanguage();
-    const { isDark, toggleTheme } = useTheme();
     const { collapsed, toggle, mobileOpen, setMobileOpen } = useSidebar();
 
     const navLinks = user ? (NAV_CONFIG[user.role] || []) : [];
@@ -218,9 +217,9 @@ const AppSidebar = () => {
     // Sidebar inner content (shared between desktop and mobile)
     const SidebarContent = ({ isMobile = false }) => (
         <div className="flex flex-col h-full">
-            {/* ── Logo + Collapse Toggle ── */}
+            {/* ── Logo ── */}
             <div className={cn('flex items-center h-16 px-4 border-b border-sidebar-border shrink-0',
-                collapsed && !isMobile ? 'justify-center' : 'justify-between'
+                collapsed && !isMobile ? 'justify-center' : 'justify-start'
             )}>
                 {(!collapsed || isMobile) && (
                     <Link to="/" className="flex items-center gap-2.5" onClick={isMobile ? closeMobile : undefined}>
@@ -237,17 +236,9 @@ const AppSidebar = () => {
                         </div>
                     </Link>
                 )}
-                {isMobile ? (
-                    <button onClick={closeMobile} className="p-1.5 rounded-md hover:bg-sidebar-accent text-sidebar-foreground">
+                {isMobile && (
+                    <button onClick={closeMobile} className="p-1.5 rounded-md hover:bg-sidebar-accent text-sidebar-foreground ml-auto">
                         <X size={18} />
-                    </button>
-                ) : (
-                    <button
-                        onClick={toggle}
-                        className="p-1.5 rounded-md hover:bg-sidebar-accent text-sidebar-foreground transition-colors"
-                        title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-                    >
-                        <PanelLeft size={18} className={cn('transition-transform', collapsed && 'rotate-180')} />
                     </button>
                 )}
             </div>
@@ -292,94 +283,39 @@ const AppSidebar = () => {
             <div className={cn('border-t border-sidebar-border py-3 space-y-1 shrink-0',
                 collapsed && !isMobile ? 'px-2' : 'px-3'
             )}>
-                {/* Theme Toggle */}
-                {collapsed && !isMobile ? (
-                    <Tooltip delayDuration={100}>
-                        <TooltipTrigger asChild>
-                            <button
-                                onClick={toggleTheme}
-                                className="group flex items-center justify-center w-full rounded-lg p-2.5 text-sm font-medium transition-colors text-sidebar-foreground hover:bg-sidebar-accent"
-                            >
-                                {isDark ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-indigo-500" />}
-                            </button>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">{isDark ? 'Switch to Light' : 'Switch to Dark'}</TooltipContent>
-                    </Tooltip>
-                ) : (
-                    <button
-                        onClick={toggleTheme}
-                        className="group flex items-center gap-2.5 w-full rounded-lg px-3 py-2.5 text-sm font-medium transition-colors text-sidebar-foreground hover:bg-sidebar-accent"
-                    >
-                        {isDark ? <Sun size={18} className="shrink-0 text-amber-400" /> : <Moon size={18} className="shrink-0 text-indigo-500" />}
-                        <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
-                    </button>
-                )}
-
                 {/* Language Switcher */}
                 <LanguageSwitcher collapsed={collapsed && !isMobile} />
 
                 <Separator className="my-2 bg-sidebar-border" />
 
-                {/* User Card */}
+                {/* User Profile Dropdown */}
                 {user && (
                     <>
-                        {(!collapsed || isMobile) && (
-                            <Link
-                                to={`/${user.role}/profile`}
-                                onClick={isMobile ? closeMobile : undefined}
-                                className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-sidebar-accent transition-colors group"
-                            >
-                                <Avatar className="h-8 w-8 shrink-0">
-                                    {user.profilePhoto?.url ? (
-                                        <AvatarImage src={user.profilePhoto.url} alt={user.fullName} />
-                                    ) : null}
-                                    <AvatarFallback className={cn(rc.bg, 'text-white text-xs font-bold')}>
-                                        {user.fullName?.charAt(0).toUpperCase()}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-sidebar-foreground truncate">{user.fullName}</p>
-                                    <p className="text-xs text-muted-foreground capitalize">{rc.label}</p>
-                                </div>
-                                <UserCircle size={15} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </Link>
-                        )}
-                        {collapsed && !isMobile && (
+                        {collapsed && !isMobile ? (
                             <Tooltip delayDuration={100}>
                                 <TooltipTrigger asChild>
-                                    <Link to={`/${user.role}/profile`} className="flex items-center justify-center w-full rounded-lg p-2 hover:bg-sidebar-accent transition-colors">
-                                        <Avatar className="h-7 w-7">
-                                            {user.profilePhoto?.url && <AvatarImage src={user.profilePhoto.url} alt={user.fullName} />}
-                                            <AvatarFallback className={cn(rc.bg, 'text-white text-xs font-bold shrink-0')}>
-                                                {user.fullName?.charAt(0).toUpperCase()}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                    </Link>
+                                    <div className="flex items-center justify-center w-full">
+                                        <ProfileDropdown 
+                                            user={user} 
+                                            collapsed={collapsed} 
+                                            isMobile={isMobile} 
+                                            closeMobile={closeMobile}
+                                            roleColor={rc}
+                                        />
+                                    </div>
                                 </TooltipTrigger>
                                 <TooltipContent side="right">{user.fullName} · {rc.label}</TooltipContent>
                             </Tooltip>
+                        ) : (
+                            <ProfileDropdown 
+                                user={user} 
+                                collapsed={collapsed} 
+                                isMobile={isMobile} 
+                                closeMobile={closeMobile}
+                                roleColor={rc}
+                            />
                         )}
                     </>
-                )}
-
-                {/* Logout */}
-                {collapsed && !isMobile ? (
-                    <Tooltip delayDuration={100}>
-                        <TooltipTrigger asChild>
-                            <button onClick={handleLogout} className="flex items-center justify-center w-full rounded-lg p-2.5 text-red-500 hover:bg-red-500/10 transition-colors">
-                                <LogOut size={18} />
-                            </button>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Logout</TooltipContent>
-                    </Tooltip>
-                ) : (
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2.5 w-full rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 hover:bg-red-500/10 transition-colors"
-                    >
-                        <LogOut size={18} className="shrink-0" />
-                        <span>Logout</span>
-                    </button>
                 )}
             </div>
         </div>

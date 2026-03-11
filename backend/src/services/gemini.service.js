@@ -148,13 +148,13 @@ const normalizeAndParseJSON = (raw) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  KRISHI KAVACH PROJECT KNOWLEDGE BASE
+//  KRISHIBANDHU PROJECT KNOWLEDGE BASE
 // ─────────────────────────────────────────────────────────────────────────────
 const PROJECT_KNOWLEDGE = `
-# Krishi Kavach — Complete Project Knowledge Base
+# KrishiBandhu — Complete Project Knowledge Base
 
-## What is Krishi Kavach?
-Krishi Kavach (meaning "Crop Shield" in Hindi) is an advanced agricultural platform built for Indian farmers.
+## What is KrishiBandhu?
+KrishiBandhu (meaning "Farmer's Friend" in Hindi) is an advanced agricultural platform built for Indian farmers.
 It helps farmers detect crop diseases using AI, get weather forecasts, connect with local agronomists, manage their crops, and receive expert advisories — all in one place.
 The app supports three languages: English, Hindi (हिंदी), and Marathi (मराठी).
 
@@ -166,7 +166,7 @@ The app supports three languages: English, Hindi (हिंदी), and Marathi 
 ## Key Features & Pages
 
 ### 🏠 Home Page (/)
-- Welcome page explaining what Krishi Kavach does
+- Welcome page explaining what KrishiBandhu does
 - Role selection cards: Farmer, Agronomist, Admin
 - Feature highlights: Crop Management, Weather Forecast, Expert Advice
 - Get Started / Go to Dashboard buttons
@@ -235,7 +235,7 @@ The app supports three languages: English, Hindi (हिंदी), and Marathi 
 - **Maps**: Leaflet.js / OpenStreetMap
 - **Authentication**: JWT (access + refresh tokens)
 
-## How to Use Krishi Kavach
+## How to Use KrishiBandhu
 1. Register as Farmer (or other role) with your mobile number and location
 2. Login with your mobile number and password
 3. Select your language (English / Hindi / Marathi)
@@ -356,23 +356,23 @@ export const chatWithAI = async (messages, pageContext = "", language = "en", us
     const client = createClient(userApiKey);
     const langName = LANGUAGE_NAMES[language] || "English";
 
-    const systemPrompt = `You are **Krishi Kavach AI Assistant** — a smart, friendly, and helpful chatbot embedded inside the Krishi Kavach agricultural platform built for Indian farmers.
+    const systemPrompt = `You are **KrishiBandhu AI Assistant** — a smart, friendly, and helpful chatbot embedded inside the KrishiBandhu agricultural platform built for Indian farmers.
 
 ${PROJECT_KNOWLEDGE}
 
 ## Current User Context
-${pageContext ? `The user is currently on: ${pageContext}` : "The user is navigating the Krishi Kavach platform."}
+${pageContext ? `The user is currently on: ${pageContext}` : "The user is navigating the KrishiBandhu platform."}
 
 ## Your Behavior Rules (STRICTLY FOLLOW THESE)
 1. **Language**: Always respond in ${langName}. Use simple, friendly language that a rural Indian farmer can understand.
 2. **Scope**: You ONLY answer questions related to:
-   - Krishi Kavach app features and how to use them
+   - KrishiBandhu app features and how to use them
    - Crop diseases, treatment, prevention, natural remedies
    - Farming advice, crop care, irrigation, fertilizers, pesticides
    - Weather interpretation for farming
    - Agricultural best practices for Indian conditions
    - The current page the user is on and what they can do there
-3. **Off-topic guard**: If someone asks something NOT related to farming, agriculture, or Krishi Kavach (e.g., movies, sports, politics, coding, general knowledge), politely respond in ${langName} that you can only help with farming and Krishi Kavach-related topics, and suggest a relevant farming question they could ask instead.
+3. **Off-topic guard**: If someone asks something NOT related to farming, agriculture, or KrishiBandhu (e.g., movies, sports, politics, coding, general knowledge), politely respond in ${langName} that you can only help with farming and KrishiBandhu-related topics, and suggest a relevant farming question they could ask instead.
 4. **Be helpful**: Give complete, actionable answers. Use bullet points for readability.
 5. **Page awareness**: Use the current page context to give specific, relevant guidance. For example, on the Weather page, explain how to interpret weather for farming decisions.
 6. **Safety**: When recommending chemicals/pesticides, always mention safety precautions.

@@ -281,7 +281,7 @@ const Home = () => {
                 backgroundClip: 'text',
                 display: 'inline-block',
               }}>
-                Kavach
+                Bandhu
               </span>
             </h1>
             <p className="text-xl sm:text-2xl font-bold text-gray-300 mb-2">
@@ -467,7 +467,7 @@ const Home = () => {
               <h2 className={`text-4xl sm:text-5xl font-black mt-4 mb-4 ${isDark ? 'text-white' : 'text-[#1e1b4b]'}`}>
                 Choose Your Role
               </h2>
-              <p className={`text-lg ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Join thousands of farmers already using Krishi Kavach</p>
+              <p className={`text-lg ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Join thousands of farmers already using KrishiBandhu</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -527,7 +527,7 @@ const Home = () => {
         <div className="relative text-center max-w-2xl mx-auto px-4">
           <div className="text-4xl mb-4">🗣️</div>
           <h2 className="text-3xl font-extrabold text-white mb-2">Available in 3 Languages</h2>
-          <p className="text-emerald-300 mb-8">Krishi Kavach speaks your language</p>
+          <p className="text-emerald-300 mb-8">KrishiBandhu speaks your language</p>
           <div className="flex justify-center gap-4 flex-wrap">
             {[
               { flag: '🇬🇧', lang: 'English', sub: 'English' },
@@ -564,7 +564,7 @@ const Home = () => {
               }}>Your Farm?</span>
             </h2>
             <p className={`text-lg mb-10 max-w-lg mx-auto ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Join farmers across India who use Krishi Kavach to protect their crops, access market data, and get expert guidance.
+              Join farmers across India who use KrishiBandhu to protect their crops, access market data, and get expert guidance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register"
@@ -584,7 +584,7 @@ const Home = () => {
       {/* ── FOOTER ────────────────────────────────────────────────────────── */}
       <footer className={`border-t py-8 text-center ${isDark ? 'border-white/5' : 'border-indigo-200/40'}`}>
         <p className="text-gray-600 text-sm">
-          🌾 <span className="text-emerald-500 font-bold">Krishi Kavach</span> — Crop Shield for India's Farmers · Built with ❤️
+          🌾 <span className="text-emerald-500 font-bold">KrishiBandhu</span> — Crop Shield for India's Farmers · Built with ❤️
         </p>
       </footer>
     </div>

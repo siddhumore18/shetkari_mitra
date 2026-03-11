@@ -54,7 +54,7 @@ const LanguageGuard = ({ children }) => {
             <div className="relative z-10">
               <div className="text-6xl mb-3 animate-bounce">🌾</div>
               <h1 className="text-3xl font-extrabold text-white tracking-tight">
-                Krishi Kavach
+                KrishiBandhu
               </h1>
               <p className="mt-2 text-green-100 text-sm font-medium">
                 Crop Disease Detection Platform

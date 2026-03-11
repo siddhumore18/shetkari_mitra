@@ -62,9 +62,9 @@ const Navbar = () => {
     if (path.includes('/agronomist')) return 'Expert Panel';
 
     if (path === '/login') return 'Welcome Back';
-    if (path === '/register') return 'Join Krishi Kavach';
+    if (path === '/register') return 'Join KrishiBandhu';
 
-    return 'Krishi Kavach';
+    return 'KrishiBandhu';
   };
 
   const roleConfig = {
@@ -114,7 +114,7 @@ const Navbar = () => {
               <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-lg">
                 <ShieldCheck size={20} />
               </div>
-              <span className="font-black text-lg tracking-tighter text-primary">KRISHI KAVACH</span>
+              <span className="font-black text-lg tracking-tighter text-primary">KRISHIBANDHU</span>
             </Link>
 
             {/* Right side: theme toggle + chat + profile */}

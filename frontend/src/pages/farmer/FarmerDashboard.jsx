@@ -689,7 +689,7 @@ const FarmerDashboard = () => {
       <div className="fixed bottom-6 right-6 z-50 group">
         <div className="absolute -top-10 right-0 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
           <div className="bg-gray-900 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-xl shadow-xl whitespace-nowrap border border-white/10">
-            Ask Krishi Kavach AI <Sparkles size={12} className="text-yellow-400" />
+            Ask KrishiBandhu AI <Sparkles size={12} className="text-yellow-400" />
           </div>
         </div>
         <Link to="/farmer/ai-assistant" className="relative flex items-center justify-center w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-2xl shadow-2xl hover:shadow-indigo-500/50 hover:scale-110 transition-all duration-300 border border-white/20">

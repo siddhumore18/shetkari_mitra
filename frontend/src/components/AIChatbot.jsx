@@ -39,7 +39,7 @@ import AIKeyModal from './AIKeyModal';
 
 // ── Page context map ─────────────────────────────────────────────────────────
 const PAGE_CONTEXTS = {
-    '/': 'Home page — shows what Krishi Kavach does, role selection (Farmer / Agronomist / Admin), and key features overview.',
+    '/': 'Home page — shows what KrishiBandhu does, role selection (Farmer / Agronomist / Admin), and key features overview.',
     '/login': 'Login page — user can sign in with their mobile number and password.',
     '/register': 'Registration page — new users can create a Farmer, Agronomist, or Admin account.',
     '/farmer': 'Farmer Dashboard — My Crops, Disease Detection & Reports, Weather Forecast, Advisories, and local agronomists in district.',
@@ -63,7 +63,7 @@ const getPageContext = (pathname) => {
     const prefix = Object.keys(PAGE_CONTEXTS)
         .filter((k) => k !== '/' && pathname.startsWith(k))
         .sort((a, b) => b.length - a.length)[0];
-    return PAGE_CONTEXTS[prefix] || 'Krishi Kavach agricultural platform.';
+    return PAGE_CONTEXTS[prefix] || 'KrishiBandhu agricultural platform.';
 };
 
 // ── Quick questions per language ─────────────────────────────────────────────
@@ -277,22 +277,22 @@ const AIChatbot = () => {
             : '';
 
         const welcomes = {
-            en: `👋 Hello! I'm **Krishi Kavach AI**.
+            en: `👋 Hello! I'm **KrishiBandhu AI**.
 You're on the **${pageLabel}** page.${diseaseSnippet}${noDiseaseHint}
 
-Ask me anything about this page, crop diseases, farming advice, or any Krishi Kavach feature!`,
-            hi: `👋 नमस्ते! मैं **Krishi Kavach AI** हूं।
+Ask me anything about this page, crop diseases, farming advice, or any KrishiBandhu feature!`,
+            hi: `👋 नमस्ते! मैं **KrishiBandhu AI** हूं।
 आप **${pageLabel}** पेज पर हैं।${diseaseSnippet ? diseaseSnippet.replace('I can see', 'मैं देख सकता हूं').replace('detected:', 'पाया गया:').replace('Ask me', 'पूछें') : ''}
 
-इस पेज, फसल रोग, खेती या Krishi Kavach की किसी भी सुविधा के बारे में पूछें!`,
-            mr: `👋 नमस्कार! मी **Krishi Kavach AI** आहे।
+इस पेज, फसल रोग, खेती या KrishiBandhu की किसी भी सुविधा के बारे में पूछें!`,
+            mr: `👋 नमस्कार! मी **KrishiBandhu AI** आहे।
 तुम्ही **${pageLabel}** पेजवर आहात।${diseaseSnippet ? diseaseSnippet.replace('I can see', 'मला दिसत आहे').replace('detected:', 'आढळले:').replace('Ask me', 'विचारा') : ''}
 
-या पेज, पिकाचे रोग, शेती किंवा Krishi Kavach बद्दल काहीही विचारा!`,
-            hinglish: `👋 Hello! Main **Krishi Kavach AI** hoon.
+या पेज, पिकाचे रोग, शेती किंवा KrishiBandhu बद्दल काहीही विचारा!`,
+            hinglish: `👋 Hello! Main **KrishiBandhu AI** hoon.
 Aap **${pageLabel}** page par hain.${diseaseSnippet ? diseaseSnippet.replace('I can see', 'Mujhe dikh raha hai').replace('detected:', 'mila hai:').replace('Ask me', 'Puchiye') : ''}
 
-Is page, fasal ki bimari, kheti ya Krishi Kavach ke features ke baare mein kuch bhi puchiye!`,
+Is page, fasal ki bimari, kheti ya KrishiBandhu ke features ke baare mein kuch bhi puchiye!`,
         };
         return { role: 'assistant', content: welcomes[chatLang] || welcomes.en, time: getTime(), id: Date.now() };
     }, [location.pathname, chatLang, diseaseContext, parsedDisease.cropName, parsedDisease.diseaseName]);
@@ -576,7 +576,7 @@ Is page, fasal ki bimari, kheti ya Krishi Kavach ke features ke baare mein kuch 
                 <button
                     id="kk-chatbot-fab"
                     onClick={handleOpen}
-                    title="Krishi Kavach AI Assistant"
+                    title="KrishiBandhu AI Assistant"
                     className="kk-fab fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full
             bg-gradient-to-br from-violet-600 to-indigo-700 text-white
             flex items-center justify-center shadow-2xl
@@ -619,7 +619,7 @@ Is page, fasal ki bimari, kheti ya Krishi Kavach ke features ke baare mein kuch 
                                 <Sparkles size={20} className="text-white" />
                             </div>
                             <div>
-                                <p className="font-bold text-white text-sm leading-tight">Krishi Kavach AI</p>
+                                <p className="font-bold text-white text-sm leading-tight">KrishiBandhu AI</p>
                                 <div className="flex items-center gap-1.5 mt-0.5">
                                     <span className="w-2 h-2 bg-green-400 rounded-full" />
                                     <p className="text-violet-200 text-xs">Online · Ready to help</p>

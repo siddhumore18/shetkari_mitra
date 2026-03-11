@@ -36,12 +36,12 @@
     "noData": "No data available"
   },
   "home": {
-    "title": "Krishi Kavach",
+    "title": "KrishiBandhu",
     "subtitle": "Crop Disease Detection",
     "description": "Advanced agricultural platform for farmers to detect crop diseases, get weather forecasts, and receive expert advisories."
   },
   "navbar": {
-    "brand": "Krishi Kavach",
+    "brand": "KrishiBandhu",
     "crops": "Crops",
     "diseaseReports": "Disease Reports",
     "weather": "Weather",

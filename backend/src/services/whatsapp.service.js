@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /**
- * WhatsApp Service for Krishi Kavach
+ * WhatsApp Service for KrishiBandhu
  * 
  * To enable real automated background sending, you need a Twilio account or similar.
  * 1. Get TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_WHATSAPP_NUMBER
@@ -9,7 +9,7 @@ import axios from 'axios';
  */
 
 export const sendWhatsAppReport = async ({ to, farmerName, cropName, diseaseName, confidence, imageURL, summary }) => {
-    const message = `*Krishi Kavach - Crop Disease Report* 🌾\n\n` +
+    const message = `*KrishiBandhu - Crop Disease Report* 🌾\n\n` +
         `Hello *${farmerName}*,\n\n` +
         `Our AI has analyzed your crop. Here are the details:\n\n` +
         `🌿 *Crop:* ${cropName}\n` +
@@ -17,7 +17,7 @@ export const sendWhatsAppReport = async ({ to, farmerName, cropName, diseaseName
         `✅ *Confidence:* ${confidence}%\n\n` +
         `📝 *Analysis:* ${summary || 'Please check the app for detailed treatment and prevention steps.'}\n\n` +
         `🖼️ *Image URL:* ${imageURL}\n\n` +
-        `Stay protected with Krishi Kavach! 🛡️`;
+        `Stay protected with KrishiBandhu! 🛡️`;
 
     console.log(`[WhatsApp] Sending report to ${to}...`);
     console.log(`[WhatsApp] Message: ${message}`);

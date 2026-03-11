@@ -1,6 +1,6 @@
-# Krishi Kavach Frontend
+# KrishiBandhu Frontend
 
-React + Vite frontend application for the Krishi Kavach crop disease detection system.
+React + Vite frontend application for the KrishiBandhu crop disease detection system.
 
 ## Features
 

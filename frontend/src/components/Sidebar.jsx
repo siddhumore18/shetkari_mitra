@@ -89,7 +89,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center border transition-all bg-[var(--bg-card)] border-[var(--border-accent)]">
                                         <Sprout className="text-emerald-500 w-6 h-6" />
                                     </div>
-                                    <span className="font-extrabold text-xl tracking-tight text-[var(--text-primary)]">Krishi Kavach</span>
+                                    <span className="font-extrabold text-xl tracking-tight text-[var(--text-primary)]">KrishiBandhu</span>
                                 </div>
                                 <button
                                     onClick={onClose}

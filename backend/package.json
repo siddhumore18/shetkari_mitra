@@ -1,7 +1,7 @@
 {
-  "name": "krishi-kavach-backend",
+  "name": "krishibandhu-backend",
   "version": "1.0.0",
-  "description": "Backend for the Krishi Kavach crop disease detection system.",
+  "description": "Backend for the KrishiBandhu crop disease detection system.",
   "main": "src/server.js",
   "type": "module",
   "author": "Chaitanya Raut",

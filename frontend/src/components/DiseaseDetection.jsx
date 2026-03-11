@@ -615,13 +615,13 @@ const DiseaseDetection = ({ onDetectionComplete }) => {
     const imageUrl = predictionResult.imageURL;
     const diagnosis = geminiInfo?.diagnosis || '';
 
-    const text = `*Krishi Kavach - Crop Disease Report* 🌾\n\n` +
+    const text = `*KrishiBandhu - Crop Disease Report* 🌾\n\n` +
       `🌿 *Crop:* ${cropName}\n` +
       `🚨 *Detected Disease:* ${diseaseName}\n` +
       `✅ *Confidence:* ${confidence}%\n\n` +
       (diagnosis ? `📝 *AI Analysis:* ${diagnosis}\n\n` : '') +
       `🖼️ *View Image:* ${imageUrl}\n\n` +
-      `_Sent via Krishi Kavach AI_ 🛡️`;
+      `_Sent via KrishiBandhu AI_ 🛡️`;
 
     const encodedText = encodeURIComponent(text);
     const whatsappUrl = `https://wa.me/${user?.mobileNumber || ''}?text=${encodedText}`;

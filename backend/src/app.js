@@ -37,10 +37,10 @@ const allowedOrigins = [
   'http://localhost:3001',
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://krishi-kavach.netlify.app',
-  'https://krishi-kavach.netlify.app/',
-  'https://krushikavach.netlify.app',
-  'https://krushikavach.netlify.app/'
+  'https://krishibandhu.netlify.app',
+  'https://krishibandhu.netlify.app/',
+  'https://krishibandhu.netlify.app',
+  'https://krishibandhu.netlify.app/'
 ];
 
 // --- Core Middleware ---

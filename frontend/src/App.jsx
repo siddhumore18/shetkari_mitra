@@ -54,7 +54,7 @@ const PublicTopBar = () => {
     <header className="fixed top-0 left-0 right-0 z-30 h-14 flex items-center justify-between px-6 border-b border-sidebar-border bg-sidebar/80 backdrop-blur-md">
       <div className="flex items-center gap-2">
         <span className="text-2xl">🌾</span>
-        <span className="font-black text-base tracking-tight text-sidebar-foreground">Krishi Kavach</span>
+        <span className="font-black text-base tracking-tight text-sidebar-foreground">KrishiBandhu</span>
       </div>
       {!user && (
         <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ const AuthenticatedShell = ({ children }) => {
           </button>
           <div className="flex items-center gap-2">
             <span className="text-xl">🌾</span>
-            <span className="font-black text-sm text-sidebar-foreground">Krishi Kavach</span>
+            <span className="font-black text-sm text-sidebar-foreground">KrishiBandhu</span>
           </div>
         </div>
 

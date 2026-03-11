@@ -251,11 +251,11 @@ const AppSidebar = () => {
                         <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center shrink-0">
                             <Sprout size={16} className="text-white" />
                         </div>
-                        <span className="font-black text-base tracking-tight text-sidebar-foreground">Krishi Kavach</span>
+                        <span className="font-black text-base tracking-tight text-sidebar-foreground">KrishiBandhu</span>
                     </Link>
                 )}
                 {collapsed && !isMobile && (
-                    <Link to="/" title="Krishi Kavach">
+                    <Link to="/" title="KrishiBandhu">
                         <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center">
                             <Sprout size={16} className="text-white" />
                         </div>

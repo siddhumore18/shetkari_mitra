@@ -57,7 +57,7 @@ const Login = () => {
             <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center shadow-2xl shadow-emerald-300/50">
               <Sprout size={40} className="text-white" />
             </div>
-            <h1 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-gray-900'}`}>Krishi Kavach</h1>
+            <h1 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-gray-900'}`}>KrishiBandhu</h1>
             <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Crop Shield for India's Farmers</p>
           </div>
         </div>

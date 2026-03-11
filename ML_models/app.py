@@ -1,5 +1,5 @@
 """
-Krishi Kavach – Unified ML Inference Server
+KrishiBandhu – Unified ML Inference Server
 Supports: 
 1. Tri-Model Ensemble (YOLOv8, MobileNetV2, EfficientNet-B0)
 2. ViT General for Crop Identification
@@ -77,7 +77,7 @@ async def lifespan(app: FastAPI):
     thread.start()
     yield
 
-app = FastAPI(title="Krishi Kavach Unified ML Server", version="3.0", lifespan=lifespan)
+app = FastAPI(title="KrishiBandhu Unified ML Server", version="3.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

@@ -1,6 +1,6 @@
 @echo off
 echo ============================================
-echo  Krishi Kavach - ML Server (Local)
+echo  KrishiBandhu - ML Server (Local)
 echo  Crops: Banana, Chilli, Radish, Groundnut, Cauliflower
 echo ============================================
 echo.

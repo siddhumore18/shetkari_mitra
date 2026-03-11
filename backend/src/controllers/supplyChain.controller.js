@@ -228,7 +228,7 @@ export const getMyCollaborations = async (req, res) => {
             .populate('listingId');
 
         const activeChats = await CollaborationChat.find({ participants: req.user.id })
-            .populate('participants', 'fullName')
+            .populate('participants', 'fullName mobileNumber address')
             .populate({
                 path: 'requestId',
                 populate: { path: 'listingId' }
@@ -246,6 +246,43 @@ export const getMyCollaborations = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+/**
+ * Get active listings exclusively from farmers the user has accepted collaborations with
+ */
+export const getConnectedFarmersListings = async (req, res) => {
+    try {
+        // Find all accepted collaboration requests involving this user
+        const acceptedCollabs = await CollaborationRequest.find({
+            $or: [{ senderId: req.user.id }, { receiverId: req.user.id }],
+            status: 'Accepted'
+        });
+
+        if (!acceptedCollabs.length) {
+            return res.status(200).json({ success: true, count: 0, data: [] });
+        }
+
+        // Extract the unique IDs of the *other* party (the connected farmers)
+        const connectedFarmerIds = [...new Set(acceptedCollabs.map(collab => {
+            return collab.senderId.toString() === req.user.id.toString()
+                ? collab.receiverId.toString()
+                : collab.senderId.toString();
+        }))];
+
+        // Fetch listings belonging only to those connected farmers (exclude Expired)
+        const listings = await SupplyChainListing.find({
+            farmerId: { $in: connectedFarmerIds },
+            status: { $in: ['Active', 'Sold'] }
+        })
+            .populate('farmerId', 'fullName mobileNumber location address')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({ success: true, count: listings.length, data: listings });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 /**
  * Fetch nearby processing centers (Ginning mills, warehouses, etc.)
  * Using Google Places API or mock data if key is missing

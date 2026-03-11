@@ -259,6 +259,7 @@ export const supplyChainAPI = {
   sendRequest: (data) => api.post('/supply-chain/collaboration/request', data),
   updateRequestStatus: (data) => api.patch('/supply-chain/collaboration/status', data),
   getMyCollaborations: () => api.get('/supply-chain/collaboration/my-stats'),
+  getConnectedListings: () => api.get('/supply-chain/collaboration/connected-listings'),
 };
 
 // Scheme APIs

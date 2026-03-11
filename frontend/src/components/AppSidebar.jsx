@@ -26,6 +26,7 @@ const NAV_CONFIG = {
         { path: '/farmer/weather', label: 'Weather Updates', icon: CloudSun },
         { path: '/farmer/market', label: 'Market Trends', icon: BarChart3 },
         { path: '/farmer/schemes', label: 'Govt Schemes', icon: ClipboardList },
+        { path: '/farmer/connected-retailers', label: 'Connected Retailers', icon: Users },
         { path: '/farmer/equipment', label: 'Equipment Market', icon: Tractor },
         { path: '/farmer/supply-chain', label: 'Supply Chain', icon: Truck },
     ],
@@ -44,6 +45,7 @@ const NAV_CONFIG = {
     retailer: [
         { path: '/retailer', label: 'Dashboard', icon: Home },
         { path: '/retailer/marketplace', label: 'Marketplace', icon: Store },
+        { path: '/retailer/connected-farmers', label: 'Connected Farmers', icon: Users },
         { path: '/retailer/weather', label: 'Weather Updates', icon: CloudSun },
         { path: '/retailer/market', label: 'Market Trends', icon: BarChart3 },
         { path: '/retailer/supply-chain', label: 'Supply Chain', icon: Truck },

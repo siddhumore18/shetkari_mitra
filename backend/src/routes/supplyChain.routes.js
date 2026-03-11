@@ -7,7 +7,8 @@ import {
     updateRequestStatus,
     getMyCollaborations,
     getExternalProcessingCenters,
-    deleteListing
+    deleteListing,
+    getConnectedFarmersListings
 } from '../controllers/supplyChain.controller.js';
 
 const router = express.Router();
@@ -21,5 +22,6 @@ router.get('/external/processing-centers', getExternalProcessingCenters);
 router.post('/collaboration/request', sendRequest);
 router.patch('/collaboration/status', updateRequestStatus);
 router.get('/collaboration/my-stats', getMyCollaborations);
+router.get('/collaboration/connected-listings', getConnectedFarmersListings);
 
 export default router;

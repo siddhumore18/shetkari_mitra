@@ -17,16 +17,16 @@ export const initChat = asyncHandler(async (req, res) => {
     }
 
     // Determine who is who
-    let farmerId, agronomistId;
+    let farmerId, agronomistId; // Also used for retailer ID in this context
 
     if (currentUserRole === 'farmer') {
         farmerId = currentUserId;
         agronomistId = otherUserId;
-    } else if (currentUserRole === 'agronomist') {
+    } else if (currentUserRole === 'agronomist' || currentUserRole === 'retailer') {
         agronomistId = currentUserId;
         farmerId = otherUserId;
     } else {
-        return res.status(403).json({ success: false, message: "Only farmers or agronomists can initiate expert chats." });
+        return res.status(403).json({ success: false, message: "Only farmers, agronomists, or retailers can initiate expert chats." });
     }
 
     // Check if both users exist
@@ -36,9 +36,9 @@ export const initChat = asyncHandler(async (req, res) => {
     }
 
     // Ensure the other user has the opposite role
-    const expectedRole = currentUserRole === 'farmer' ? 'agronomist' : 'farmer';
-    if (otherUser.role !== expectedRole) {
-        return res.status(400).json({ success: false, message: `Target user must be a ${expectedRole}.` });
+    const expectedRoles = currentUserRole === 'farmer' ? ['agronomist', 'retailer'] : ['farmer'];
+    if (!expectedRoles.includes(otherUser.role)) {
+        return res.status(400).json({ success: false, message: `Target user must be one of: ${expectedRoles.join(', ')}.` });
     }
 
     let chat = await ExpertChat.findOne({ farmerId, agronomistId })

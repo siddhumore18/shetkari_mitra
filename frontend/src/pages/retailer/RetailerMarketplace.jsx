@@ -11,13 +11,15 @@ import {
     User,
     ChevronRight,
     ArrowLeft,
-    Loader2
+    Loader2,
+    Clock
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supplyChainAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
+import ExpertChatRoom from '../../components/ExpertChatRoom';
 
 const RetailerMarketplace = () => {
     const { user } = useAuth();
@@ -30,6 +32,9 @@ const RetailerMarketplace = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filterCrop, setFilterCrop] = useState('');
     const [selectedListing, setSelectedListing] = useState(null);
+    const [connectedFarmerIds, setConnectedFarmerIds] = useState([]);
+    const [sentRequests, setSentRequests] = useState([]);
+    const [selectedChatUser, setSelectedChatUser] = useState(null);
 
     useEffect(() => {
         const fetchAllListings = async () => {
@@ -41,6 +46,23 @@ const RetailerMarketplace = () => {
 
                 const res = await supplyChainAPI.getNearbyListings(lat, lng, 1000); // 1000km for "all" feed
                 setListings(res.data?.data || []);
+
+                // Fetch collaborations to identify connections
+                const collabRes = await supplyChainAPI.getMyCollaborations();
+                const collabs = collabRes.data?.data || { chats: [], sent: [] };
+
+                const connectedIds = new Set();
+                collabs.chats.forEach(chat => {
+                    chat.participants.forEach(p => {
+                        if (p._id !== user.id) connectedIds.add(p._id);
+                    });
+                });
+
+                const pendingListingIds = new Set();
+                collabs.sent.forEach(req => pendingListingIds.add(req.listingId?._id || req.listingId));
+
+                setConnectedFarmerIds(Array.from(connectedIds));
+                setSentRequests(Array.from(pendingListingIds));
             } catch (err) {
                 console.error('Marketplace Load Error:', err);
             } finally {
@@ -64,6 +86,7 @@ const RetailerMarketplace = () => {
                 listingId: listing._id,
                 message: `Hi ${listing.farmerId?.fullName}, I saw your post for ${listing.cropType} and I'm interested. Let's discuss details.`
             });
+            setSentRequests(prev => [...prev, listing._id]);
             alert(t('Collaboration request sent!'));
         } catch (err) {
             alert(t('Failed to send request.'));
@@ -240,16 +263,38 @@ const RetailerMarketplace = () => {
                                     >
                                         <Phone size={20} /> {t('Call Farmer')}
                                     </a>
-                                    <button
-                                        onClick={() => handleSendRequest(selectedListing)}
-                                        className="flex-1 py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-500/20 transition-all flex items-center justify-center gap-3"
-                                    >
-                                        <MessageSquare size={20} /> {t('Send Inquiry')}
-                                    </button>
+
+                                    {connectedFarmerIds.includes(selectedListing.farmerId?._id) ? (
+                                        <button
+                                            onClick={() => setSelectedChatUser(selectedListing.farmerId?._id)}
+                                            className="flex-1 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-2xl shadow-xl shadow-indigo-500/20 transition-all flex items-center justify-center gap-3"
+                                        >
+                                            <MessageSquare size={20} /> {t('Chat (Connected)')}
+                                        </button>
+                                    ) : sentRequests.includes(selectedListing._id) ? (
+                                        <button disabled className="flex-1 py-4 bg-slate-300 dark:bg-zinc-800 text-slate-500 dark:text-zinc-500 font-black rounded-2xl cursor-not-allowed flex items-center justify-center gap-3">
+                                            <Clock size={20} /> {t('Request Pending')}
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleSendRequest(selectedListing)}
+                                            className="flex-1 py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-500/20 transition-all flex items-center justify-center gap-3"
+                                        >
+                                            <MessageSquare size={20} /> {t('Send Inquiry')}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
+                )}
+
+                {/* Embedded Chat Modal */}
+                {selectedChatUser && (
+                    <ExpertChatRoom
+                        otherUserId={selectedChatUser}
+                        onClose={() => setSelectedChatUser(null)}
+                    />
                 )}
             </div>
         </div>
